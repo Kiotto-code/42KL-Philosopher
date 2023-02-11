@@ -123,7 +123,7 @@ long	pl_time(void)
 // }
 int	pl_show(unsigned timestamp, t_thread *pl, char *msg, pthread_mutex_t *printer)
 {
-	pthread_mutex_lock(printer);
+	pthread_mutex_lock(pl->record->printer);
 	usleep(100);
 	if (pl->record->end == 1)
 	{
@@ -144,7 +144,7 @@ int	pl_show(unsigned timestamp, t_thread *pl, char *msg, pthread_mutex_t *printe
 		if (pl_check_full(pl->record->plptr, pl->record) == 1)
 		{
 			// printf("msg eating \n");
-			pthread_mutex_unlock(printer);
+			// pthread_mutex_unlock(printer);
 			return (1);
 		}
 	}

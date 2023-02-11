@@ -143,6 +143,7 @@ int pl_run_trd(t_thread *pl, t_book *record)
 	// while (++i < record->pl_num)
 	// 	pthread_join(thread[i], NULL);
 	// i= -1;
+	// usleep(100);
 	pthread_mutex_destroy(record->printer);
 	i = -1;
 	while (++i < record->pl_num)
