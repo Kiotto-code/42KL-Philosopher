@@ -12,28 +12,28 @@
 
 #include "philo.h"
 
-int pl_check_dead(t_thread *pl, t_book *record)
-{
-	int i;
+// int pl_check_dead(t_thread *pl, t_book *record)
+// {
+// 	int i;
 
-	i = -1;
-	while (++i < record->pl_num)
-	{
-		if ((pl_time() - pl[i].last_meal) > record->time_to_die)
-		{
-			// record->end = 1;
-			// pthread_mutex_lock(record->printer);
-			// printf("printre state : %d",pthread_mutex_lock(record->printer));
-			printf("%d %d %s\n", (int)(pl_time() - record->starttime), pl->id, DIED);
-			// pl_show(pl_time() - record->starttime,
-			// 	pl->id, DIED, record->printer);
-			record->end = 1;
-			// usleep(50);
-			return (1);
-		}
-	}
-	return (0);
-}
+// 	i = -1;
+// 	while (++i < record->pl_num)
+// 	{
+// 		if ((pl_time() - pl[i].last_meal) > record->time_to_die)
+// 		{
+// 			// record->end = 1;
+// 			// pthread_mutex_lock(record->printer);
+// 			// printf("printre state : %d",pthread_mutex_lock(record->printer));
+// 			printf("%d %d %s\n", (int)(pl_time() - record->starttime), pl->id, DIED);
+// 			// pl_show(pl_time() - record->starttime,
+// 			// 	pl->id, DIED, record->printer);
+// 			record->end = 1;
+// 			// usleep(50);
+// 			return (1);
+// 		}
+// 	}
+// 	return (0);
+// }
 
 int pl_check_full(t_thread *pl, t_book *record)
 {
@@ -79,22 +79,39 @@ void *motherfucker(void *temp)
 	pl = (t_thread *)temp;
 	record = pl->record;
 	pl->last_meal = pl_time();
+	// printf("id: %ld\n", pl->id);
 	if (pl->id % 2 == 0)
-		usleep(50);
+		usleep(500);
 	while (1)
 	{
-		pthread_mutex_lock(pl->l_fork);
-		pl_show(pl_time() - record->starttime, pl, FORK, record->printer);
-		pthread_mutex_lock(pl->r_fork);
-		pl_show(pl_time() - record->starttime, pl, FORK, record->printer);
-		pl_show(pl_time() - record->starttime, pl, EAT, record->printer);
+		// printf ("ptr of l_fork %p \n", (*pl).l_fork);
+		// printf ("ptr of r_fork %p \n", (*pl).r_fork);
+		// printf ("size of l_fork %lu \n", sizeof((*pl).l_fork));
+		// printf ("size of r_fork %lu \n", sizeof((*pl).r_fork));
+		pthread_mutex_lock((*pl).l_fork);
+		if (pl_show(pl_time() - record->starttime, pl, FORK, record->printer) == 1)
+		{
+			pthread_mutex_unlock((*pl).r_fork);
+			return (NULL);
+		}
+		pthread_mutex_lock((*pl).r_fork);
+		if (pl_show(pl_time() - record->starttime, pl, FORK, record->printer) == 1)
+		{
+			pthread_mutex_unlock((*pl).r_fork);
+			return (NULL);
+		}
+		if (pl_show(pl_time() - record->starttime, pl, EAT, record->printer) == 1)
+			return (NULL);
 		pl->last_meal = pl_time();
+		// printf("last_meal %ld \n", pl->last_meal);
 		pl_usleep(record->time_to_eat);
 		pthread_mutex_unlock(pl->l_fork);
 		pthread_mutex_unlock(pl->r_fork);
-		pl_show(pl_time() - record->starttime, pl, SLEEP, record->printer);
+		if (pl_show(pl_time() - record->starttime, pl, SLEEP, record->printer) == 1)
+			return (NULL);
 		pl_usleep(record->time_to_sleep);
-		pl_show(pl_time() - record->starttime, pl, THINK, record->printer);
+		if (pl_show(pl_time() - record->starttime, pl, THINK, record->printer) == 1)
+			return (NULL);
 		if (record->end == 1)
 			return (NULL);
 	}
@@ -125,7 +142,7 @@ int pl_run_trd(t_thread *pl, t_book *record)
 		return (err_display("Pthread Create Error"));
 	// while (++i < record->pl_num)
 	// 	pthread_join(thread[i], NULL);
-	i= -1;
+	// i= -1;
 	pthread_mutex_destroy(record->printer);
 	i = -1;
 	while (++i < record->pl_num)
@@ -139,7 +156,7 @@ int philo(t_book *record)
 	pthread_mutex_t *fork;
 	pthread_mutex_t *act;
 
-	pl = (t_thread *)ft_calloc(sizeof(t_thread) * record->pl_num);
+	pl = (t_thread *)ft_calloc(sizeof(t_thread) * (record->pl_num));
 	fork = (pthread_mutex_t *)ft_calloc(sizeof(pthread_mutex_t) * record->pl_num);
 	act = (pthread_mutex_t *)ft_calloc(sizeof(pthread_mutex_t) * 1);
 	record->plptr = pl;

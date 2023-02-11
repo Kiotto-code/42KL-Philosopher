@@ -25,14 +25,14 @@
 
 typedef struct s_book
 {
-	int	pl_num;
-	int	time_to_die;
-	int	time_to_eat;
-	int	time_to_sleep;
-	int	meal_target;
-	long starttime;
-	int	end;
-	int full_counter;
+	long	pl_num;
+	long	time_to_die;
+	long	time_to_eat;
+	long	time_to_sleep;
+	long	meal_target;
+	long	starttime;
+	long	end;
+	long	full_counter;
 	pthread_mutex_t	*printer;
 	void *plptr;
 	// int pl_act;
@@ -41,9 +41,9 @@ typedef struct s_book
 typedef struct s_thread
 {
 	t_book			*record;
-	int				id;
-	int				num_meals;
-	int				fulfilled;
+	long				id;
+	long				num_meals;
+	long				fulfilled;
 	long			last_meal;
 	pthread_mutex_t	*l_fork;
 	pthread_mutex_t	*r_fork;
@@ -61,11 +61,11 @@ int		err_display(char str[]);
 
 // sl_libft.c
 void	*ft_calloc(size_t count);
-int		ft_atoi(const char *str);
+long		ft_atoi(const char *str);
 
 // pl_mod_utils.c
 void	pl_usleep(long num);
-int	pl_show(unsigned timestamp, t_thread *pl, char *msg, pthread_mutex_t *printer);
+int		pl_show(unsigned timestamp, t_thread *pl, char *msg, pthread_mutex_t *printer);
 void	pl_show_run(unsigned timestamp, int id, char *msg, pthread_mutex_t *printer);
 
 // void		pl_show(unsigned timestamp, t_thread *pl,

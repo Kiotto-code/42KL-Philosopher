@@ -61,8 +61,17 @@ int	check_argument(int ac, char **av, t_book *record)
 	record->end = 0;
 	record->full_counter = 0;
 	record->meal_target = -1;
+	// printf("record->time_to_die: %d", record->time_to_die);
 	if (ac == 6)
 		record->meal_target = ft_atoi(av[5]);
+	// printf("meal_target %ld \n", record->meal_target);
+	printf("%ld \n", record->pl_num);
+	printf("%ld \n",record->time_to_die);
+	printf("%ld \n",record->time_to_eat);
+	printf("%ld \n",record->time_to_sleep);
+	printf("%ld \n",record->end);
+	printf("%ld \n",record->full_counter);
+	printf("%ld \n",record->meal_target);
 	return (0);
 }
 

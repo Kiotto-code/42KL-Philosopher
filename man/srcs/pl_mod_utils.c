@@ -30,29 +30,38 @@ void	*pl_checker(void *temp)
 
 	i = 0;
 	pl = (t_thread *)temp;
+	pl_usleep(50);
 	while (1)
 	{
-		pthread_mutex_lock(pl[0].record->printer);
-		usleep(100);
-		if (i >= pl[0].record->pl_num)
+		pthread_mutex_lock(pl->record->printer);
+		// pl_usleep(50);
+		if (i >= pl->record->pl_num)
 			i = 0;
-		if (pl[0].record->meal_target > 0)
+		if (pl->record->meal_target > 0)
 		{
 			if (pl_check_full(pl, pl->record) == 1)
+			{
+				printf("checking \n");
+				pl->record->end = 1;
 				return (NULL);
+			}
 		}
-		if ((pl_time() - pl[i].last_meal) > pl[i].record->time_to_die)
+		if ((pl_time() - pl[i].last_meal) > pl->record->time_to_die)
 		{
-			pl[0].record->end = 1;
-			pl_show(pl_time() - pl[i].record->starttime, \
-						pl, DIED, pl[0].record->printer);
+			// printf("1 : %ld\n", pl[i].record->time_to_die);
+			// printf("2 : %ld\n", (pl_time() - pl[i].last_meal));
+			pl->record->end = 1;
+			pl_show_run(pl_time() - pl[i].record->starttime, \
+						pl[i].id, DIED, pl[i].record->printer);
 			return ((void *) 1);
 		}
 		i++;
-		pthread_mutex_unlock(pl[0].record->printer);
+		pthread_mutex_unlock(pl->record->printer);
 	}
+	pthread_mutex_unlock(pl->record->printer);
 	return (NULL);
 }
+
 void	pl_usleep(long num)
 {
 	long	i;
@@ -114,28 +123,27 @@ long	pl_time(void)
 // }
 int	pl_show(unsigned timestamp, t_thread *pl, char *msg, pthread_mutex_t *printer)
 {
-	// if (pl->record->end == 1)
-	// 	return ;
 	pthread_mutex_lock(printer);
+	usleep(100);
+	if (pl->record->end == 1)
+	{
+		pthread_mutex_unlock(printer);
+		return (1);
+	}
 	if (pl_check_full(pl->record->plptr, pl->record) == 1)
 	{
 		pthread_mutex_unlock(printer);
 		return (1);
 	}
-	// if (pl->record->end == 1)
-	// {
-	// 	// pthread_mutex_unlock(printer);
-	// 	return (1);
-	// }
 	pl_show_run(timestamp, pl->id, msg, printer);
 	if (msg[3] == 'e')
 	{
 		pl->num_meals += 1;
-		if (pl->num_meals == pl->record->meal_target && pl->record->meal_target > 0)
+		if (pl->record->meal_target > 0 && pl->num_meals == pl->record->meal_target)
 			pl->record->full_counter += 1;
-		// usleep(10);
 		if (pl_check_full(pl->record->plptr, pl->record) == 1)
 		{
+			// printf("msg eating \n");
 			pthread_mutex_unlock(printer);
 			return (1);
 		}
