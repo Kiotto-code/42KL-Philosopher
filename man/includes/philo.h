@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yichan <yichan@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/11 22:24:21 by yichan            #+#    #+#             */
+/*   Updated: 2023/02/11 22:24:21 by yichan           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PHILO_H
 # define PHILO_H
 
@@ -22,28 +34,26 @@
 # define THINK "is thinking"
 # define DIED "died"
 
-
 typedef struct s_book
 {
-	long	pl_num;
-	long	time_to_die;
-	long	time_to_eat;
-	long	time_to_sleep;
-	long	meal_target;
-	long	starttime;
-	long	end;
-	long	full_counter;
+	long			pl_num;
+	long			time_to_die;
+	long			time_to_eat;
+	long			time_to_sleep;
+	long			meal_target;
+	long			starttime;
+	long			end;
+	long			full_counter;
 	pthread_mutex_t	*printer;
-	void *plptr;
-	// int pl_act;
-} t_book;
+	void			*plptr;
+}	t_book;
 
 typedef struct s_thread
 {
 	t_book			*record;
-	long				id;
-	long				num_meals;
-	long				fulfilled;
+	long			id;
+	long			num_meals;
+	long			fulfilled;
 	long			last_meal;
 	pthread_mutex_t	*l_fork;
 	pthread_mutex_t	*r_fork;
@@ -54,35 +64,28 @@ int		philo(t_book *record);
 int		pl_check_full(t_thread *pl, t_book *record);
 
 // pl_init.c
-int		pl_init_pl(t_thread *pl, pthread_mutex_t *action, pthread_mutex_t *fork, t_book *record);
+int		pl_init_pl(t_thread *pl, pthread_mutex_t *action,
+			pthread_mutex_t *fork, t_book *record);
 
 // pl_error.c
 int		err_display(char str[]);
 
 // sl_libft.c
 void	*ft_calloc(size_t count);
-long		ft_atoi(const char *str);
+long	ft_atoi(const char *str);
 
 // pl_mod_utils.c
 void	pl_usleep(long num);
-int		pl_show(unsigned timestamp, t_thread *pl, char *msg, pthread_mutex_t *printer);
-void	pl_show_run(unsigned timestamp, int id, char *msg, pthread_mutex_t *printer);
-
-// void		pl_show(unsigned timestamp, t_thread *pl,
-// 			char *msg, pthread_mutex_t *printer);
+int		pl_show(unsigned timestamp, t_thread *pl,
+			char *msg, pthread_mutex_t *printer);
+void	pl_show_run(unsigned int timestamp, int id,
+			char *msg, pthread_mutex_t *printer);
 void	*pl_checker(void *phls_void);
-
-
-// int	pl_show_run(unsigned timestamp, int id, char *msg, pthread_mutex_t *printer);
 long	pl_time(void);
 
-
-
-
-
-
-
-
-
+// pl_extra_func.c
+int		meal_target_check(t_thread *pl, int i);
+int		pl_eat(t_thread *pl, t_book	*record);
+int		pl_sleep_think(t_thread *pl, t_book	*record);
 
 #endif

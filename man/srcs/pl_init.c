@@ -19,10 +19,8 @@ int	pl_init_pl(t_thread *pl, pthread_mutex_t *fork,
 
 	i = -1;
 	(void) action;
-	// record->printer = action;
 	while (++i < record->pl_num)
 	{
-		// printf("fork:%d\n", pthread_mutex_init(&fork[i], NULL));
 		if (pthread_mutex_init(&fork[i], NULL) != 0)
 			err_display("fork failed");
 		pl[i].fulfilled = 0;

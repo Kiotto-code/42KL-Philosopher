@@ -25,7 +25,7 @@
 // }
 void	*pl_checker(void *temp)
 {
-	int		i;
+	int			i;
 	t_thread	*pl;
 
 	i = 0;
@@ -34,7 +34,6 @@ void	*pl_checker(void *temp)
 	while (1)
 	{
 		pthread_mutex_lock(pl->record->printer);
-		// pl_usleep(50);
 		if (i >= pl->record->pl_num)
 			i = 0;
 		if (pl->record->meal_target > 0)
@@ -46,10 +45,10 @@ void	*pl_checker(void *temp)
 				return (NULL);
 			}
 		}
+		// if (meal_target_check(pl, i) == 1)
+		// 	return ((void *) 1);
 		if ((pl_time() - pl[i].last_meal) > pl->record->time_to_die)
 		{
-			// printf("1 : %ld\n", pl[i].record->time_to_die);
-			// printf("2 : %ld\n", (pl_time() - pl[i].last_meal));
 			pl->record->end = 1;
 			pl_show_run(pl_time() - pl[i].record->starttime, \
 						pl[i].id, DIED, pl[i].record->printer);
@@ -58,7 +57,6 @@ void	*pl_checker(void *temp)
 		i++;
 		pthread_mutex_unlock(pl->record->printer);
 	}
-	pthread_mutex_unlock(pl->record->printer);
 	return (NULL);
 }
 
@@ -89,39 +87,8 @@ long	pl_time(void)
 // ◦ timestamp_in_ms X is thinking
 // ◦ timestamp_in_ms X died
 
-// int	pl_show(unsigned timestamp, t_thread *pl, char *msg, pthread_mutex_t *printer)
-// {
-// 	// if (pl_check_full(pl, pl->record) == 1)
-// 	// 	return (1);
-// 	// usleep(50/10000);
-// 	// if (pl->record->end == 1)
-// 	// {
-// 	// 	while (1)
-// 	// 		;
-// 	// }
-// 	if(pl->record->end == 1)
-// 		return (1);
-// 	pthread_mutex_lock(printer);
-// 	pl_show_run((long)timestamp, pl->id, msg, printer);
-// 	if (msg[3] == 'e')
-// 	{
-// 		// pl->num_meals += 1;
-// 		// usleep(50);
-// 		// if (pl_check_full(pl, record) == 1)
-// 		// 	break;
-// 		if (pl->num_meals >= pl->record->meal_target && pl->record->meal_target > 0)
-// 			pl->fulfilled = 1;
-// 		if (pl_check_full(pl->record->plptr, pl->record) == 1)
-// 		{
-// 				pthread_mutex_unlock(printer);
-// 				// usleep(pl->record->time_to_die);
-// 				return (1);
-// 		}
-// 	}
-// 	pthread_mutex_unlock(printer);
-// 	return (0);
-// }
-int	pl_show(unsigned timestamp, t_thread *pl, char *msg, pthread_mutex_t *printer)
+int	pl_show(unsigned timestamp, t_thread *pl,
+	char *msg, pthread_mutex_t *printer)
 {
 	pthread_mutex_lock(pl->record->printer);
 	usleep(100);
@@ -139,22 +106,19 @@ int	pl_show(unsigned timestamp, t_thread *pl, char *msg, pthread_mutex_t *printe
 	if (msg[3] == 'e')
 	{
 		pl->num_meals += 1;
-		if (pl->record->meal_target > 0 && pl->num_meals == pl->record->meal_target)
+		if (pl->record->meal_target > 0 && \
+			pl->num_meals == pl->record->meal_target)
 			pl->record->full_counter += 1;
 		if (pl_check_full(pl->record->plptr, pl->record) == 1)
-		{
-			// printf("msg eating \n");
-			// pthread_mutex_unlock(printer);
 			return (1);
-		}
 	}
 	pthread_mutex_unlock(printer);
 	return (0);
 }
 
-void	pl_show_run(unsigned timestamp, int id, char *msg, pthread_mutex_t *printer)
+void	pl_show_run(unsigned int timestamp, int id,
+	char *msg, pthread_mutex_t *printer)
 {
-	// pthread_mutex_lock(printer);
 	(void)printer;
 	if (msg[3] == 'd')
 	{
@@ -163,5 +127,4 @@ void	pl_show_run(unsigned timestamp, int id, char *msg, pthread_mutex_t *printer
 	}
 	else
 		printf("%u %d %s\n", timestamp, id, msg);
-	// pthread_mutex_unlock(printer);
 }

@@ -29,7 +29,7 @@ void	*ft_calloc(size_t count)
 {
 	void			*ptr;
 
-	if (count >= SIZE_MAX )
+	if (count >= SIZE_MAX)
 		return (NULL);
 	ptr = malloc(count);
 	if (!ptr)
@@ -48,7 +48,7 @@ int	ft_isdigit(int c)
 long	ft_atoi(const char *str)
 {
 	long int	result;
-	long int			sign;
+	long int	sign;
 
 	result = 0;
 	sign = 1;

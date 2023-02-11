@@ -19,10 +19,9 @@ int	check_value(int n)
 	return (0);
 }
 
-int check_digit(int ac, char**av)
+int	check_digit(int ac, char**av)
 {
-	int i;
-	// int j;
+	int	i;
 
 	i = 0;
 	while (++i < ac)
@@ -35,7 +34,6 @@ int check_digit(int ac, char**av)
 	}
 	return (0);
 }
-
 
 int	check_argument(int ac, char **av, t_book *record)
 {
@@ -61,30 +59,18 @@ int	check_argument(int ac, char **av, t_book *record)
 	record->end = 0;
 	record->full_counter = 0;
 	record->meal_target = -1;
-	// printf("record->time_to_die: %d", record->time_to_die);
 	if (ac == 6)
 		record->meal_target = ft_atoi(av[5]);
-	// printf("meal_target %ld \n", record->meal_target);
-	printf("%ld \n", record->pl_num);
-	printf("%ld \n",record->time_to_die);
-	printf("%ld \n",record->time_to_eat);
-	printf("%ld \n",record->time_to_sleep);
-	printf("%ld \n",record->end);
-	printf("%ld \n",record->full_counter);
-	printf("%ld \n",record->meal_target);
 	return (0);
 }
 
 int	main(int ac, char *av[])
 {
 	t_book		record;
-	// pthread_t	thread;
 
 	if (check_argument(ac, av, &record) == 1)
 		return (1);
 	philo(&record);
-	// free (&record);
-	// memset(&record, 0, sizeof(t_book));
 	// system("leaks -q philo");
 	return (0);
 }
