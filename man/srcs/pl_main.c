@@ -71,6 +71,16 @@ int	main(int ac, char *av[])
 	if (check_argument(ac, av, &record) == 1)
 		return (1);
 	philo(&record);
-	// system("leaks -q philo");
 	return (0);
 }
+
+// int	main(int ac, char *av[])
+// {
+// 	t_book		record;
+
+// 	if (check_argument(ac, av, &record) == 1)
+// 		return (1);
+// 	philo(&record);
+// 	system("leaks -q philo");
+// 	return (0);
+// }

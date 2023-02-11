@@ -6,17 +6,17 @@
 /*   By: yichan <yichan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 22:16:52 by yichan            #+#    #+#             */
-/*   Updated: 2023/02/11 22:31:56 by yichan           ###   ########.fr       */
+/*   Updated: 2023/02/11 23:36:12 by yichan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	meal_target_check(t_thread *pl, int i)
+int	meal_target_check(t_thread *pl, int *i)
 {
 	pthread_mutex_lock(pl->record->printer);
-	if (i >= pl->record->pl_num)
-		i = 0;
+	if (*i >= pl->record->pl_num)
+		*i = 0;
 	if (pl->record->meal_target > 0)
 	{
 		if (pl_check_full(pl, pl->record) == 1)

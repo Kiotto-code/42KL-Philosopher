@@ -84,7 +84,7 @@ void	*pl_checker(void *phls_void);
 long	pl_time(void);
 
 // pl_extra_func.c
-int		meal_target_check(t_thread *pl, int i);
+int		meal_target_check(t_thread *pl, int *i);
 int		pl_eat(t_thread *pl, t_book	*record);
 int		pl_sleep_think(t_thread *pl, t_book	*record);
 

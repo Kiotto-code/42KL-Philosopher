@@ -12,7 +12,7 @@
 
 #include "philo.h"
 
-int pl_check_full(t_thread *pl, t_book *record)
+int	pl_check_full(t_thread *pl, t_book *record)
 {
 	(void)pl;
 	if (record->full_counter == record->pl_num)
@@ -43,36 +43,10 @@ void	*motherfucker(void *temp)
 		usleep(500);
 	while (1)
 	{
-		pthread_mutex_lock((*pl).l_fork);
-		if (pl_show(pl_time() - record->starttime, pl, FORK, record->printer) == 1)
-		{
-			pthread_mutex_unlock((*pl).r_fork);
+		if (pl_eat(pl, record) == 1)
 			return (NULL);
-		}
-		pthread_mutex_lock((*pl).r_fork);
-		if (pl_show(pl_time() - record->starttime, pl, FORK, record->printer) == 1)
-		{
-			pthread_mutex_unlock((*pl).r_fork);
+		if (pl_sleep_think(pl, record) == 1)
 			return (NULL);
-		}
-		if (pl_show(pl_time() - record->starttime, pl, EAT, record->printer) == 1)
-			return (NULL);
-		pl->last_meal = pl_time();
-		pl_usleep(record->time_to_eat);
-		pthread_mutex_unlock(pl->l_fork);
-		pthread_mutex_unlock(pl->r_fork);
-		if (pl_show(pl_time() - record->starttime, pl, SLEEP, record->printer) == 1)
-			return (NULL);
-		pl_usleep(record->time_to_sleep);
-		if (pl_show(pl_time() - record->starttime, pl, THINK, record->printer) == 1)
-			return (NULL);
-		if (record->end == 1)
-			return (NULL);
-
-		// if (pl_eat(pl, record) == 1)
-		// 	return (NULL);
-		// if (pl_sleep_think(pl, record) == 1)
-		// 	return (NULL);
 	}
 	return (NULL);
 }

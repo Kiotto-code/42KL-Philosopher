@@ -33,20 +33,8 @@ void	*pl_checker(void *temp)
 	pl_usleep(50);
 	while (1)
 	{
-		pthread_mutex_lock(pl->record->printer);
-		if (i >= pl->record->pl_num)
-			i = 0;
-		if (pl->record->meal_target > 0)
-		{
-			if (pl_check_full(pl, pl->record) == 1)
-			{
-				printf("checking \n");
-				pl->record->end = 1;
-				return (NULL);
-			}
-		}
-		// if (meal_target_check(pl, i) == 1)
-		// 	return ((void *) 1);
+		if (meal_target_check(pl, &i) == 1)
+			return ((void *) 1);
 		if ((pl_time() - pl[i].last_meal) > pl->record->time_to_die)
 		{
 			pl->record->end = 1;
