@@ -6,7 +6,7 @@
 /*   By: yichan <yichan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 22:16:52 by yichan            #+#    #+#             */
-/*   Updated: 2023/02/11 23:36:12 by yichan           ###   ########.fr       */
+/*   Updated: 2023/02/11 23:42:08 by yichan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ int	meal_target_check(t_thread *pl, int *i)
 	{
 		if (pl_check_full(pl, pl->record) == 1)
 		{
-			printf("checking \n");
 			pl->record->end = 1;
 			return (1);
 		}
