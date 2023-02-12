@@ -80,7 +80,7 @@ int	pl_show(unsigned timestamp, t_thread *pl,
 	if (pl->record->end == 1)
 	{
 		pthread_mutex_unlock(printer);
-		printf("checking\n");
+		// printf("checking\n");
 		return (1);
 	}
 	pl_show_run(timestamp, pl->id, msg, printer);
@@ -107,7 +107,7 @@ void	pl_show_run(unsigned int timestamp, int id,
 	if (msg[3] == 'd')
 	{
 		printf("%u %d %s\n", timestamp, id, msg);
-		return ;
+		// return ;
 	}
 	else
 		printf("%u %d %s\n", timestamp, id, msg);

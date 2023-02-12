@@ -40,7 +40,7 @@ void	*motherfucker(void *temp)
 	record = pl->record;
 	pl->last_meal = pl_time();
 	if (pl->id % 2 == 0)
-		usleep(pl->record->time_to_eat * 1000 / 2);
+		pl_usleep(pl->record->time_to_eat / 2);
 	while (1)
 	{
 		if (pl_eat(pl, record) == 1)
