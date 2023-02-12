@@ -40,7 +40,7 @@ void	*motherfucker(void *temp)
 	record = pl->record;
 	pl->last_meal = pl_time();
 	if (pl->id % 2 == 0)
-		usleep(500);
+		usleep(pl->record->time_to_eat * 1000 / 2);
 	while (1)
 	{
 		if (pl_eat(pl, record) == 1)
@@ -55,10 +55,11 @@ void	*motherfucker(void *temp)
 int	pl_run_trd(t_thread *pl, t_book *record)
 {
 	pthread_t	*thread;
-	pthread_t	checker;
+	pthread_t	*checker;
 	int			i;
 
 	thread = (pthread_t *)ft_calloc(sizeof(pthread_t) * record->pl_num);
+	checker = (pthread_t *)ft_calloc(sizeof(pthread_t));
 	record->starttime = pl_time();
 	i = -1;
 	while (++i < record->pl_num)
@@ -68,33 +69,32 @@ int	pl_run_trd(t_thread *pl, t_book *record)
 			return (err_display("Pthread Create Error"));
 	}
 	i = -1;
+	if (pthread_create(&checker[0], NULL, &pl_checker, (void *)pl) != 0)
+		return (err_display("Pthread Create Error"));
 	while (++i < record->pl_num)
 		pthread_detach(thread[i]);
-	if (pthread_create(&checker, NULL, pl_checker, (void *)pl) != 0)
-		return (err_display("Pthread Create Error"));
-	pthread_join(checker, NULL);
+	pthread_join(*checker, NULL);
 	pthread_mutex_destroy(record->printer);
 	i = -1;
 	while (++i < record->pl_num)
 		pthread_mutex_destroy(pl[i].l_fork);
-	return (free(thread), 0);
+	return (free(thread), free(checker), 0);
 }
 
 int	philo(t_book *record)
 {
 	t_thread		*pl;
 	pthread_mutex_t	*fork;
-	pthread_mutex_t	*act;
 
 	pl = (t_thread *)ft_calloc(sizeof(t_thread) * (record->pl_num));
 	fork = (pthread_mutex_t *)ft_calloc(sizeof(pthread_mutex_t)
 			* record->pl_num);
-	act = (pthread_mutex_t *)ft_calloc(sizeof(pthread_mutex_t) * 1);
+	record->printer = (pthread_mutex_t *)ft_calloc(sizeof(pthread_mutex_t) * 1);
+	pthread_mutex_init(record->printer, NULL);
 	record->plptr = pl;
-	record->printer = act;
-	if (pl_init_pl(pl, fork, act, record) != 0)
+	if (pl_init_pl(pl, fork, record->printer, record) != 0)
 		return (1);
 	if (pl_run_trd(pl, record) != 0)
 		return (1);
-	return (free(pl), free(fork), free(act), 0);
+	return (free(pl), free(fork), free(record->printer), 0);
 }

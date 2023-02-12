@@ -25,7 +25,6 @@ int	pl_init_pl(t_thread *pl, pthread_mutex_t *fork,
 			err_display("fork failed");
 		pl[i].fulfilled = 0;
 		pl[i].record = record;
-		pl[i].record->printer = action;
 		pl[i].id = i +1;
 		pl[i].l_fork = &fork[i];
 		pl[i].r_fork = &fork[(i + 1) % record->pl_num];

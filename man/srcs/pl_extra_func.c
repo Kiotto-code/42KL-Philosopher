@@ -6,7 +6,7 @@
 /*   By: yichan <yichan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 22:16:52 by yichan            #+#    #+#             */
-/*   Updated: 2023/02/11 23:42:08 by yichan           ###   ########.fr       */
+/*   Updated: 2023/02/12 23:04:41 by yichan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,22 @@
 
 int	meal_target_check(t_thread *pl, int *i)
 {
+	t_book	*record;
+
+	record = pl->record;
 	pthread_mutex_lock(pl->record->printer);
 	if (*i >= pl->record->pl_num)
 		*i = 0;
 	if (pl->record->meal_target > 0)
 	{
-		if (pl_check_full(pl, pl->record) == 1)
+		if (record->full_counter == record->pl_num)
 		{
-			pl->record->end = 1;
+			record->end = 1;
+			pthread_mutex_unlock(pl->record->printer);
 			return (1);
 		}
 	}
+	pthread_mutex_unlock(pl->record->printer);
 	return (0);
 }
 
@@ -33,7 +38,7 @@ int	pl_eat(t_thread *pl, t_book	*record)
 	pthread_mutex_lock((*pl).l_fork);
 	if (pl_show(pl_time() - record->starttime, pl, FORK, record->printer) == 1)
 	{
-		pthread_mutex_unlock((*pl).r_fork);
+		pthread_mutex_unlock((*pl).l_fork);
 		return (1);
 	}
 	pthread_mutex_lock((*pl).r_fork);
@@ -43,7 +48,9 @@ int	pl_eat(t_thread *pl, t_book	*record)
 		return (1);
 	}
 	if (pl_show(pl_time() - record->starttime, pl, EAT, record->printer) == 1)
+	{
 		return (1);
+	}
 	pl->last_meal = pl_time();
 	pl_usleep(record->time_to_eat);
 	pthread_mutex_unlock(pl->l_fork);

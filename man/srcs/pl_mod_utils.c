@@ -12,17 +12,6 @@
 
 #include "philo.h"
 
-// int	pl_td_crt(pthread_t *restrict thread,
-// 		const pthread_attr_t *restrict attr,
-// 		void *(*start_routine)(void *),
-// 		void *restrict arg)
-// {
-// 	if (pthread_create (thread, attr, start_routine, arg) != 0)
-// 	{
-// 		printf("threead create failed");
-// 		return (1);
-// 	}
-// }
 void	*pl_checker(void *temp)
 {
 	int			i;
@@ -33,17 +22,23 @@ void	*pl_checker(void *temp)
 	pl_usleep(50);
 	while (1)
 	{
+		// pthread_mutex_lock(pl->record->printer);
 		if (meal_target_check(pl, &i) == 1)
+		{
+			pl->record->end = 1;
+			// pthread_mutex_unlock(pl[i].record->printer);
 			return ((void *) 1);
+		}
 		if ((pl_time() - pl[i].last_meal) > pl->record->time_to_die)
 		{
 			pl->record->end = 1;
 			pl_show_run(pl_time() - pl[i].record->starttime, \
 						pl[i].id, DIED, pl[i].record->printer);
+			// pthread_mutex_unlock(pl[i].record->printer);
 			return ((void *) 1);
 		}
-		i++;
-		pthread_mutex_unlock(pl->record->printer);
+		// pthread_mutex_unlock(pl->record->printer);
+		// usleep(100);
 	}
 	return (NULL);
 }
@@ -51,12 +46,14 @@ void	*pl_checker(void *temp)
 void	pl_usleep(long num)
 {
 	long	i;
+	long	total;
 
 	i = pl_time();
+	total = num + i;
 	while (1)
 	{
 		usleep(50);
-		if ((pl_time() - i) >= num)
+		if (pl_time() >= total)
 			break ;
 	}
 }
@@ -79,15 +76,11 @@ int	pl_show(unsigned timestamp, t_thread *pl,
 	char *msg, pthread_mutex_t *printer)
 {
 	pthread_mutex_lock(pl->record->printer);
-	usleep(100);
+	// usleep(1000);
 	if (pl->record->end == 1)
 	{
 		pthread_mutex_unlock(printer);
-		return (1);
-	}
-	if (pl_check_full(pl->record->plptr, pl->record) == 1)
-	{
-		pthread_mutex_unlock(printer);
+		printf("checking\n");
 		return (1);
 	}
 	pl_show_run(timestamp, pl->id, msg, printer);
@@ -98,7 +91,10 @@ int	pl_show(unsigned timestamp, t_thread *pl,
 			pl->num_meals == pl->record->meal_target)
 			pl->record->full_counter += 1;
 		if (pl_check_full(pl->record->plptr, pl->record) == 1)
+		{
+			pthread_mutex_unlock(printer);
 			return (1);
+		}
 	}
 	pthread_mutex_unlock(printer);
 	return (0);
