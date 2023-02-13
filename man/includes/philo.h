@@ -34,6 +34,13 @@
 # define THINK "is thinking"
 # define DIED "died"
 
+	// long			pl_num;
+	// long			time_to_die;
+	// long			time_to_eat;
+	// long			time_to_sleep;
+	// long			meal_target;
+// record
+
 typedef struct s_book
 {
 	long			pl_num;
@@ -48,6 +55,7 @@ typedef struct s_book
 	void			*plptr;
 }	t_book;
 
+// philo struct
 typedef struct s_thread
 {
 	t_book			*record;
@@ -55,6 +63,13 @@ typedef struct s_thread
 	long			num_meals;
 	long			fulfilled;
 	long			last_meal;
+	long			pl_num;
+	long			time_to_die;
+	long			time_to_eat;
+	long			time_to_sleep;
+	long			meal_target;
+	long			starttime;
+	long			end;
 	pthread_mutex_t	*l_fork;
 	pthread_mutex_t	*r_fork;
 }	t_thread;
@@ -76,7 +91,7 @@ long	ft_atoi(const char *str);
 
 // pl_mod_utils.c
 void	pl_usleep(long num);
-int		pl_show(unsigned timestamp, t_thread *pl,
+int		pl_show(t_thread *pl,
 			char *msg, pthread_mutex_t *printer);
 void	pl_show_run(unsigned int timestamp, int id,
 			char *msg, pthread_mutex_t *printer);
@@ -87,5 +102,6 @@ long	pl_time(void);
 int		meal_target_check(t_thread *pl, int *i);
 int		pl_eat(t_thread *pl, t_book	*record);
 int		pl_sleep_think(t_thread *pl, t_book	*record);
+void	pl_call_end(t_thread *pl);
 
 #endif

@@ -30,6 +30,13 @@ int	pl_init_pl(t_thread *pl, pthread_mutex_t *fork,
 		pl[i].r_fork = &fork[(i + 1) % record->pl_num];
 		pl[i].last_meal = 0;
 		pl[i].num_meals = 0;
+		pl[i].starttime = 0;
+		pl[i].end = 0;
+		pl[i].pl_num = record->pl_num;
+		pl[i].time_to_die = record->time_to_die;
+		pl[i].time_to_eat = record->time_to_eat;
+		pl[i].time_to_sleep = record->time_to_sleep;
+		pl[i].meal_target = record->meal_target;
 	}
 	return (0);
 }
