@@ -44,6 +44,12 @@ void	*motherfucker(void *temp)
 	pl->starttime = pl_time();
 	pl->last_meal = pl_time();
 	pthread_mutex_unlock(record->full_mut);
+	if (pl->l_fork == pl->r_fork)
+	{ 
+		pl_show(pl, FORK, record->printer);
+		// pl_show(pl, DIED, record->printer);
+		return (NULL);
+	}
 	if (pl->id % 2 == 0)
 		pl_usleep(pl->record->time_to_eat / 2);
 	while (1)

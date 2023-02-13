@@ -21,6 +21,7 @@ void	*pl_checker(void *temp)
 	i = 0;
 	pl = (t_thread *)temp;
 	record = pl->record;
+	(void)record;
 	pl_usleep(50);
 	while (1)
 	{
@@ -80,7 +81,6 @@ int	pl_show(t_thread *pl,
 {
 	unsigned int	timestamp;
 
-	// printf("pl->record->end_mut %p \n", pl->record->end_mut);
 	pthread_mutex_lock(pl->record->end_mut);
 	if (pl->end == 1)
 	{
@@ -112,7 +112,7 @@ void	pl_show_run(unsigned int timestamp, int id,
 	char *msg, pthread_mutex_t *printer)
 {
 	pthread_mutex_lock(printer);
-	(void)printer;
+	// (void)printer;
 	if (msg[3] == 'd')
 	{
 		printf("%u %d %s\n", timestamp, id, msg);

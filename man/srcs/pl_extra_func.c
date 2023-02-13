@@ -61,6 +61,7 @@ int	pl_eat(t_thread *pl, t_book	*record)
 	pthread_mutex_lock((*pl).r_fork);
 	if (pl_show(pl, FORK, record->printer) == 1)
 	{
+		pthread_mutex_unlock((*pl).l_fork);
 		pthread_mutex_unlock((*pl).r_fork);
 		return (1);
 	}
@@ -70,7 +71,6 @@ int	pl_eat(t_thread *pl, t_book	*record)
 		pthread_mutex_unlock(pl->r_fork);
 		return (1);
 	}
-	// pl->last_meal = pl_time();
 	pl_usleep(record->time_to_eat);
 	pthread_mutex_unlock(pl->l_fork);
 	pthread_mutex_unlock(pl->r_fork);
