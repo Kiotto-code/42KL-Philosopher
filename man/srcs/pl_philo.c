@@ -40,10 +40,10 @@ void	*motherfucker(void *temp)
 
 	pl = (t_thread *)temp;
 	record = pl->record;
-	pthread_mutex_lock(record->printer);
+	pthread_mutex_lock(record->full_mut);
 	pl->starttime = pl_time();
 	pl->last_meal = pl_time();
-	pthread_mutex_unlock(record->printer);
+	pthread_mutex_unlock(record->full_mut);
 	if (pl->id % 2 == 0)
 		pl_usleep(pl->record->time_to_eat / 2);
 	while (1)
@@ -76,9 +76,9 @@ int	pl_run_trd(t_thread *pl, t_book *record)
 	i = -1;
 	if (pthread_create(&checker[0], NULL, &pl_checker, (void *)pl) != 0)
 		return (err_display("Pthread Create Error"));
-	while (++i < record->pl_num)
-		pthread_detach(thread[i]);
 	pthread_join(*checker, NULL);
+	while (++i < record->pl_num)
+		pthread_join(thread[i], NULL);
 	pthread_mutex_destroy(record->printer);
 	i = -1;
 	while (++i < record->pl_num)
@@ -95,12 +95,15 @@ int	philo(t_book *record)
 	fork = (pthread_mutex_t *)ft_calloc(sizeof(pthread_mutex_t)
 			* record->pl_num);
 	record->printer = (pthread_mutex_t *)ft_calloc(sizeof(pthread_mutex_t) * 1);
+	record->end_mut = (pthread_mutex_t *)ft_calloc(sizeof(pthread_mutex_t));
+	record->full_mut = (pthread_mutex_t *)ft_calloc(sizeof(pthread_mutex_t));
 	pthread_mutex_init(record->printer, NULL);
+	pthread_mutex_init(record->end_mut, NULL);
+	pthread_mutex_init(record->full_mut, NULL);
 	record->plptr = pl;
-	if (pl_init_pl(pl, fork, record->printer, record) != 0)
-		return (1);
-	if (pl_run_trd(pl, record) != 0)
-		return (1);
-	return (free(pl), free(fork), free(record->printer), 0);
+	pl_init_pl(pl, fork, record->printer, record);
+	pl_run_trd(pl, record);
+	return (free(pl), free(fork), free(record->printer),
+		free(record->end_mut), free(record->full_mut), 0);
 	// return (0);
 }

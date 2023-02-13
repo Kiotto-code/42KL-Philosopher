@@ -13,8 +13,9 @@
 NAME    =   philo
 CC		=	gcc
 RM		=	rm -rf
+# CFLAGS	=	-Wall -Werror -Wextra
 CFLAGS	=	-Wall -Werror -Wextra -fsanitize=thread -g
-# CFLAGS	=	-Wall -Werror -Wextra -fsanitize=address -g
+# CFLAGS	=	-Wall -Werror -Wextra -fsanitize=address -g3
 INCLUDES	= ./includes
 SRC_PATH	= ./srcs
 OBJ_PATH	= ./obj

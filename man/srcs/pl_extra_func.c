@@ -6,7 +6,7 @@
 /*   By: yichan <yichan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 22:16:52 by yichan            #+#    #+#             */
-/*   Updated: 2023/02/13 23:46:27 by yichan           ###   ########.fr       */
+/*   Updated: 2023/02/14 01:47:48 by yichan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,14 @@ void	pl_call_end(t_thread *pl)
 
 	i = -1;
 	// printf("checking \n");
-	// pthread_mutex_lock(pl->l_fork);
+	// printf("pl->record->end_mut %p \n", pl->record->end_mut);
+	// printf("pl->record->end_mut %lu \n", sizeof(pl->record->end_mut));
 	while (++i < pl->record->pl_num)
 	{
+		pthread_mutex_lock(pl->record->end_mut);
 		pl[i].end = 1;
+		pthread_mutex_unlock(pl->record->end_mut);
 	}
-	// pthread_mutex_unlock(pl->l_fork);
 	// usleep(500);
 }
 
@@ -32,7 +34,7 @@ int	meal_target_check(t_thread *pl, int *i)
 	t_book	*record;
 
 	record = pl->record;
-	pthread_mutex_lock(record->printer);
+	pthread_mutex_lock(record->full_mut);
 	if (*i >= pl->record->pl_num)
 		*i = 0;
 	if (pl->record->meal_target > 0)
@@ -40,11 +42,11 @@ int	meal_target_check(t_thread *pl, int *i)
 		if (record->full_counter == record->pl_num)
 		{
 			pl_call_end(pl);
-			pthread_mutex_unlock(record->printer);
+			pthread_mutex_unlock(record->full_mut);
 			return (1);
 		}
 	}
-	pthread_mutex_unlock(record->printer);
+	pthread_mutex_unlock(record->full_mut);
 	return (0);
 }
 

@@ -52,6 +52,8 @@ typedef struct s_book
 	long			end;
 	long			full_counter;
 	pthread_mutex_t	*printer;
+	pthread_mutex_t	*full_mut;
+	pthread_mutex_t	*end_mut;
 	void			*plptr;
 }	t_book;
 
