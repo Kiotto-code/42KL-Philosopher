@@ -13,7 +13,7 @@
 NAME    =   philo
 CC		=	gcc
 RM		=	rm -rf
-CFLAGS	=	-Wall -Werror -Wextra #-fsanitize=thread -g
+CFLAGS	=	-Wall -Werror -Wextra -fsanitize=thread -g
 # CFLAGS	=	-Wall -Werror -Wextra -fsanitize=address -g
 INCLUDES	= ./includes
 SRC_PATH	= ./srcs
@@ -23,8 +23,10 @@ OBJ_PATH	= ./obj
 SRCS	= $(wildcard ./*/pl_*.c)
 # OBJS	= $(addprefix $(OBJ_PATH)/, $(addsuffix .o, $(notdir $(basename $(SRCS)))))
 # OBJS	= $(patsubst %$(OBJ_PATH)/*, %$(SRC_PATH)/*, $(patsubst %.o, %.c, ${SRCS}))
-OBJS	= $(addprefix $(OBJ_PATH)/, $(patsubst %.c, %.o, $(notdir ${SRCS})))
+# OBJS	= $(addprefix $(OBJ_PATH)/, $(patsubst %.c, %.o, $(notdir ${SRCS})))
 # OBJS	= $(patsubst %$(SRC_PATH)/*.c, %$(OBJ_PATH)/*.o, ${SRCS})
+OBJS	= ${SRCS:./srcs/%.c=${OBJ_PATH}/%.o}
+
 
 all				:	$(NAME)
 

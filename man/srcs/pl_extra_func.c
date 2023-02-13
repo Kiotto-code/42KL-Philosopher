@@ -6,7 +6,7 @@
 /*   By: yichan <yichan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 22:16:52 by yichan            #+#    #+#             */
-/*   Updated: 2023/02/13 20:44:16 by yichan           ###   ########.fr       */
+/*   Updated: 2023/02/13 23:46:27 by yichan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,13 @@ void	pl_call_end(t_thread *pl)
 	int	i;
 
 	i = -1;
-	pthread_mutex_lock(pl->record->printer);
+	// printf("checking \n");
+	// pthread_mutex_lock(pl->l_fork);
 	while (++i < pl->record->pl_num)
 	{
 		pl[i].end = 1;
 	}
-	pthread_mutex_unlock(pl->record->printer);
+	// pthread_mutex_unlock(pl->l_fork);
 	// usleep(500);
 }
 
@@ -81,8 +82,8 @@ int	pl_sleep_think(t_thread *pl, t_book	*record)
 	pl_usleep(record->time_to_sleep);
 	if (pl_show(pl, THINK, record->printer) == 1)
 		return (1);
-	if (pl->end == 1)
-		return (1);
+	// if (pl->end == 1)
+	// 	return (1);
 	return (0);
 }
 

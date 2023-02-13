@@ -16,16 +16,18 @@ void	*pl_checker(void *temp)
 {
 	int			i;
 	t_thread	*pl;
+	t_book		*record;
 
 	i = 0;
 	pl = (t_thread *)temp;
+	record = pl->record;
 	pl_usleep(50);
 	while (1)
 	{
 		if (meal_target_check(pl, &i) == 1)
 			return ((void *) 1);
-		pthread_mutex_lock(pl[i].record->printer);
-		if ((pl_time() - pl[i].last_meal) > pl->record->time_to_die)
+		pthread_mutex_lock(pl->record->printer);
+		if ((pl_time() - pl[i].last_meal) > pl->time_to_die)
 		{
 			// pthread_mutex_unlock(pl[i].record->printer);
 			// pthread_mutex_lock(pl->record->printer);
@@ -33,10 +35,10 @@ void	*pl_checker(void *temp)
 			// pthread_mutex_unlock(pl->record->printer);
 			pl_show_run(pl_time() - pl[i].starttime, \
 						pl[i].id, DIED, pl[i].record->printer);
-			pthread_mutex_unlock(pl[i].record->printer);
+			pthread_mutex_unlock(pl->record->printer);
 			return ((void *) 1);
 		}
-		pthread_mutex_unlock(pl[i].record->printer);
+		pthread_mutex_unlock(pl->record->printer);
 		// pthread_mutex_unlock(pl->record->printer);
 		i ++;
 		usleep(100);
@@ -78,13 +80,12 @@ int	pl_show(t_thread *pl,
 {
 	unsigned timestamp;
 
-	pthread_mutex_lock(printer);
-	if (pl->end == 1)
+	if (pl->record->full_counter == pl->pl_num)
 	{
-		pthread_mutex_unlock(printer);
 		return (1);
 	}
 	timestamp = pl_time() - pl->starttime;
+	pthread_mutex_unlock(printer);
 	pl_show_run(timestamp, pl->id, msg, printer);
 	if (msg[3] == 'e')
 	{
@@ -92,13 +93,14 @@ int	pl_show(t_thread *pl,
 		if (pl->record->meal_target > 0 && \
 			pl->num_meals == pl->record->meal_target)
 			pl->record->full_counter += 1;
-		if (pl_check_full(pl->record->plptr, pl->record) == 1)
+		if (pl_check_full(pl, pl->record) == 1)
 		{
+			// printf("checking \n");
 			pthread_mutex_unlock(printer);
 			return (1);
 		}
+		pl->last_meal = pl_time();
 	}
-	pl->last_meal = pl_time();
 	pthread_mutex_unlock(printer);
 	// pl_usleep(pl->record->time_to_eat);
 	return (0);

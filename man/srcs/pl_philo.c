@@ -17,7 +17,9 @@ int	pl_check_full(t_thread *pl, t_book *record)
 	(void)pl;
 	if (record->full_counter == record->pl_num)
 	{
-		pl_call_end(pl);
+		// pthread_mutex_lock(record->printer);
+		pl_call_end(record->plptr);
+		// pthread_mutex_unlock(record->printer);
 		return (1);
 	}
 	return (0);
@@ -38,10 +40,10 @@ void	*motherfucker(void *temp)
 
 	pl = (t_thread *)temp;
 	record = pl->record;
-	// pthread_mutex_lock(record->printer);
+	pthread_mutex_lock(record->printer);
 	pl->starttime = pl_time();
 	pl->last_meal = pl_time();
-	// pthread_mutex_unlock(record->printer);
+	pthread_mutex_unlock(record->printer);
 	if (pl->id % 2 == 0)
 		pl_usleep(pl->record->time_to_eat / 2);
 	while (1)
