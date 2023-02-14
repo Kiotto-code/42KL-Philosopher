@@ -40,12 +40,12 @@ void	*motherfucker(void *temp)
 
 	pl = (t_thread *)temp;
 	record = pl->record;
+	pl->starttime = record->starttime;
 	pthread_mutex_lock(record->full_mut);
-	pl->starttime = pl_time();
 	pl->last_meal = pl_time();
 	pthread_mutex_unlock(record->full_mut);
 	if (pl->l_fork == pl->r_fork)
-	{ 
+	{
 		pl_show(pl, FORK, record->printer);
 		// pl_show(pl, DIED, record->printer);
 		return (NULL);
@@ -71,10 +71,12 @@ int	pl_run_trd(t_thread *pl, t_book *record)
 
 	thread = (pthread_t *)ft_calloc(sizeof(pthread_t) * record->pl_num);
 	checker = (pthread_t *)ft_calloc(sizeof(pthread_t));
-	record->starttime = pl_time();
+	// record->starttime = pl_time();
 	i = -1;
 	while (++i < record->pl_num)
 	{
+		if (i == 0)
+			record->starttime = pl_time();
 		if (pthread_create(&thread[i], NULL,
 				&motherfucker, (void *)&pl[i]) != 0)
 			return (err_display("Pthread Create Error"));
@@ -111,5 +113,5 @@ int	philo(t_book *record)
 	pl_run_trd(pl, record);
 	return (free(pl), free(fork), free(record->printer),
 		free(record->end_mut), free(record->full_mut), 0);
-	// return (0);
+	return (0);
 }

@@ -16,33 +16,27 @@ void	*pl_checker(void *temp)
 {
 	int			i;
 	t_thread	*pl;
-	t_book		*record;
+	long		current;
 
 	i = 0;
 	pl = (t_thread *)temp;
-	record = pl->record;
-	(void)record;
 	pl_usleep(50);
+	current = pl_time();
 	while (1)
 	{
-		if (meal_target_check(pl, &i) == 1)
+		if (meal_target_check(pl, &i, current) == 1)
 			return ((void *) 1);
 		pthread_mutex_lock(pl->record->full_mut);
-		if ((pl_time() - pl[i].last_meal) > pl->time_to_die)
+		if ((current - pl[i].last_meal) > pl->time_to_die)
 		{
-			// pthread_mutex_unlock(pl[i].record->printer);
-			// pthread_mutex_lock(pl->record->printer);
 			pl_call_end(pl);
-			// pthread_mutex_unlock(pl->record->printer);
-			pl_show_run(pl_time() - pl[i].starttime, \
+			pl_show_run(current - pl[i].starttime, \
 						pl[i].id, DIED, pl[i].record->printer);
 			pthread_mutex_unlock(pl->record->full_mut);
 			return ((void *) 1);
 		}
 		pthread_mutex_unlock(pl->record->full_mut);
-		// pthread_mutex_unlock(pl->record->printer);
 		i ++;
-		usleep(100);
 	}
 	return (NULL);
 }
@@ -81,13 +75,13 @@ int	pl_show(t_thread *pl,
 {
 	unsigned int	timestamp;
 
+	timestamp = pl_time() - pl->starttime;
 	pthread_mutex_lock(pl->record->end_mut);
 	if (pl->end == 1)
 	{
 		pthread_mutex_unlock(pl->record->end_mut);
 		return (1);
 	}
-	timestamp = pl_time() - pl->starttime;
 	pthread_mutex_unlock(pl->record->end_mut);
 	pl_show_run(timestamp, pl->id, msg, printer);
 	if (msg[3] == 'e')
