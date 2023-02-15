@@ -6,7 +6,7 @@
 /*   By: yichan <yichan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 22:16:52 by yichan            #+#    #+#             */
-/*   Updated: 2023/02/14 19:24:26 by yichan           ###   ########.fr       */
+/*   Updated: 2023/02/16 02:47:13 by yichan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,15 @@ void	pl_call_end(t_thread *pl)
 	// printf("checking \n");
 	// printf("pl->record->end_mut %p \n", pl->record->end_mut);
 	// printf("pl->record->end_mut %lu \n", sizeof(pl->record->end_mut));
+	pthread_mutex_lock(pl->record->end_mut);
+	pl->record->end = 1;
 	while (++i < pl->record->pl_num)
 	{
-		pthread_mutex_lock(pl->record->end_mut);
+		// pthread_mutex_lock(pl->record->end_mut);
 		pl[i].end = 1;
-		pthread_mutex_unlock(pl->record->end_mut);
+		// pthread_mutex_unlock(pl->record->end_mut);
 	}
+	pthread_mutex_unlock(pl->record->end_mut);
 	// usleep(500);
 }
 
@@ -77,6 +80,8 @@ int	pl_eat(t_thread *pl, t_book	*record)
 	pl_usleep(record->time_to_eat);
 	pthread_mutex_unlock(pl->l_fork);
 	pthread_mutex_unlock(pl->r_fork);
+	if (pl->id % 2 == 0)
+		usleep(500);
 	return (0);
 }
 
@@ -85,8 +90,26 @@ int	pl_sleep_think(t_thread *pl, t_book	*record)
 	if (pl_show(pl, SLEEP, record->printer) == 1)
 		return (1);
 	pl_usleep(record->time_to_sleep);
+	// pthread_mutex_lock(	record->wake_mut)
+	// if (pl->id % 2 == 0)
+	// {
+		
+	// }
+	// pthread_mutex_lock(record->wake_mut);
+	// record->awake += 1;
+	// pthread_mutex_unlock(record->wake_mut);
+	// while (1)
+	// {
+	// 	pthread_mutex_lock(record->wake_mut);
+	// 	if (record->awake == record->pl_num)
+	// 		break ;
+	// 	pthread_mutex_unlock(record->wake_mut);
+	// }
+	// pthread_mutex_unlock(record->wake_mut);
 	if (pl_show(pl, THINK, record->printer) == 1)
 		return (1);
+	if (pl->id % 2 == 0)
+		usleep(500);
 	// if (pl->end == 1)
 	// 	return (1);
 	return (0);

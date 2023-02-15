@@ -52,9 +52,11 @@ typedef struct s_book
 	long			end;
 	long			full_counter;
 	long			temp;
+	long			awake;
 	pthread_mutex_t	*printer;
 	pthread_mutex_t	*full_mut;
 	pthread_mutex_t	*end_mut;
+	pthread_mutex_t	*wake_mut;
 	void			*plptr;
 }	t_book;
 
@@ -74,6 +76,7 @@ typedef struct s_thread
 	long			starttime;
 	long			end;
 	long			temp;
+	// long			awake;
 	pthread_mutex_t	*l_fork;
 	pthread_mutex_t	*r_fork;
 }	t_thread;
@@ -93,6 +96,7 @@ int		err_display(char str[]);
 // sl_libft.c
 void	*ft_calloc(size_t count);
 long	ft_atoi(const char *str);
+long	pl_time(void);
 
 // pl_mod_utils.c
 void	pl_usleep(long num);
@@ -101,7 +105,6 @@ int		pl_show(t_thread *pl,
 void	pl_show_run(unsigned int timestamp, int id,
 			char *msg, pthread_mutex_t *printer);
 void	*pl_checker(void *phls_void);
-long	pl_time(void);
 
 // pl_extra_func.c
 int		meal_target_check(t_thread *pl, int *i, long current);

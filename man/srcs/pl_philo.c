@@ -16,10 +16,10 @@ void	*pl_deadcheck(t_thread *pl)
 {
 	long int	current;
 	// pthread_mutex_lock(pl->record->full_mut);
-	current = pl_time();
+	current = pl->record->temp;
 	if ((current - pl->last_meal) > pl->time_to_die)
 	{
-		pl_call_end(pl);
+		pl_call_end(pl->record->plptr);
 		pl_show_run(current - pl->starttime, \
 					pl->id, DIED, pl->record->printer);
 		// pthread_mutex_unlock(pl->record->full_mut);
@@ -88,24 +88,20 @@ int	pl_run_trd(t_thread *pl, t_book *record)
 
 	thread = (pthread_t *)ft_calloc(sizeof(pthread_t) * record->pl_num);
 	checker = (pthread_t *)ft_calloc(sizeof(pthread_t));
-	// record->starttime = pl_time();
+	record->starttime = pl_time();
 	i = -1;
 	while (++i < record->pl_num)
 	{
-		if (i == 0)
-			record->starttime = pl_time();
 		if (pthread_create(&thread[i], NULL,
 				&motherfucker, (void *)&pl[i]) != 0)
 			return (err_display("Pthread Create Error"));
 	}
 	i = -1;
-	if (pthread_create(&checker[0], NULL, &pl_checker, (void *)pl) != 0)
-		return (err_display("Pthread Create Error"));
+	pthread_create(&checker[0], NULL, &pl_checker, (void *)pl);
+	// pthread_create(&checker[1], NULL, &pl_killer, (void *)pl);
 	pthread_join(*checker, NULL);
 	while (++i < record->pl_num)
-	{
 		pthread_join(thread[i], NULL);
-	}
 	pthread_mutex_destroy(record->printer);
 	i = -1;
 	while (++i < record->pl_num)
@@ -124,13 +120,17 @@ int	philo(t_book *record)
 	record->printer = (pthread_mutex_t *)ft_calloc(sizeof(pthread_mutex_t) * 1);
 	record->end_mut = (pthread_mutex_t *)ft_calloc(sizeof(pthread_mutex_t));
 	record->full_mut = (pthread_mutex_t *)ft_calloc(sizeof(pthread_mutex_t));
+	record->wake_mut = (pthread_mutex_t *)ft_calloc(sizeof(pthread_mutex_t));
 	pthread_mutex_init(record->printer, NULL);
 	pthread_mutex_init(record->end_mut, NULL);
 	pthread_mutex_init(record->full_mut, NULL);
+	pthread_mutex_init(record->wake_mut, NULL);
 	record->plptr = pl;
 	pl_init_pl(pl, fork, record->printer, record);
 	pl_run_trd(pl, record);
-	return (free(pl), free(fork), free(record->printer),
-		free(record->end_mut), free(record->full_mut), 0);
+	return (free(pl), free(fork), pthread_mutex_destroy(record->printer),
+		pthread_mutex_destroy(record->end_mut),
+		pthread_mutex_destroy(record->full_mut),
+		pthread_mutex_destroy(record->wake_mut), 0);
 	return (0);
 }

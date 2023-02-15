@@ -45,6 +45,14 @@ int	ft_isdigit(int c)
 	return (0);
 }
 
+long	pl_time(void)
+{
+	struct timeval	time;
+
+	gettimeofday(&time, NULL);
+	return (time.tv_sec * 1000 + time.tv_usec / 1000);
+}
+
 long	ft_atoi(const char *str)
 {
 	long int	result;

@@ -12,6 +12,30 @@
 
 #include "philo.h"
 
+void	*pl_killer(void *temp)
+{
+	int			i;
+	t_thread	*pl;
+	long		current;
+
+	i = 0;
+	pl = (t_thread *)temp;
+	pl_usleep(50);
+	current = pl_time();
+	while (1)
+	{
+		pthread_mutex_lock(pl->record->full_mut);
+		if (pl_deadcheck(&pl[i]) == (void *)1)
+		{
+			pthread_mutex_unlock(pl->record->full_mut);
+			return (NULL);
+		}
+		pthread_mutex_unlock(pl->record->full_mut);
+		i ++;
+	}
+	return (NULL);
+}
+
 void	*pl_checker(void *temp)
 {
 	int			i;
@@ -27,8 +51,7 @@ void	*pl_checker(void *temp)
 		if (meal_target_check(pl, &i, current) == 1)
 			return ((void *) 1);
 		pl->record->temp = pl_time();
-		pthread_mutex_lock(pl->record->full_mut);
-		current = pl->record->temp;
+		// current = pl->record->temp;
 		// if ((current - pl[i].last_meal) > pl->time_to_die)
 		// {
 		// 	pl_call_end(pl);
@@ -37,8 +60,12 @@ void	*pl_checker(void *temp)
 		// 	pthread_mutex_unlock(pl->record->full_mut);
 		// 	return ((void *) 1);
 		// }
-		if (pl_deadcheck(pl) == (void *)1)
+		pthread_mutex_lock(pl->record->full_mut);
+		if (pl_deadcheck(&pl[i]) == (void *)1)
+		{
+			pthread_mutex_unlock(pl->record->full_mut);
 			return (NULL);
+		}
 		pthread_mutex_unlock(pl->record->full_mut);
 		i ++;
 	}
@@ -58,14 +85,6 @@ void	pl_usleep(long num)
 		if (pl_time() >= total)
 			break ;
 	}
-}
-
-long	pl_time(void)
-{
-	struct timeval	time;
-
-	gettimeofday(&time, NULL);
-	return (time.tv_sec * 1000 + time.tv_usec / 1000);
 }
 
 // ◦ timestamp_in_ms X has taken a fork
