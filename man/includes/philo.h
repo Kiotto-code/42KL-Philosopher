@@ -51,6 +51,7 @@ typedef struct s_book
 	long			starttime;
 	long			end;
 	long			full_counter;
+	long			temp;
 	pthread_mutex_t	*printer;
 	pthread_mutex_t	*full_mut;
 	pthread_mutex_t	*end_mut;
@@ -72,6 +73,7 @@ typedef struct s_thread
 	long			meal_target;
 	long			starttime;
 	long			end;
+	long			temp;
 	pthread_mutex_t	*l_fork;
 	pthread_mutex_t	*r_fork;
 }	t_thread;
@@ -79,6 +81,7 @@ typedef struct s_thread
 // pl_philo.c
 int		philo(t_book *record);
 int		pl_check_full(t_thread *pl, t_book *record);
+void	*pl_deadcheck(t_thread *pl);
 
 // pl_init.c
 int		pl_init_pl(t_thread *pl, pthread_mutex_t *action,

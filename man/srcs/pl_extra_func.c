@@ -6,7 +6,7 @@
 /*   By: yichan <yichan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 22:16:52 by yichan            #+#    #+#             */
-/*   Updated: 2023/02/14 19:17:15 by yichan           ###   ########.fr       */
+/*   Updated: 2023/02/14 19:24:26 by yichan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ int	meal_target_check(t_thread *pl, int *i, long current)
 	{
 		*i = 0;
 		current = pl_time();
-		
 	}
 	pthread_mutex_lock(record->full_mut);
 	if (pl->record->meal_target > 0)

@@ -13,8 +13,8 @@
 NAME    =   philo
 CC		=	gcc
 RM		=	rm -rf
-# CFLAGS	=	-Wall -Werror -Wextra
-CFLAGS	=	-Wall -Werror -Wextra -fsanitize=thread -g3
+CFLAGS	=	-Wall -Werror -Wextra
+# CFLAGS	=	-Wall -Werror -Wextra -fsanitize=thread -g3
 # CFLAGS	=	-Wall -Werror -Wextra -fsanitize=address -g3
 INCLUDES	= ./includes
 SRC_PATH	= ./srcs
