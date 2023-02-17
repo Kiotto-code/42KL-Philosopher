@@ -20,7 +20,7 @@ void	*pl_killer(void *temp)
 
 	i = 0;
 	pl = (t_thread *)temp;
-	pl_usleep(50);
+	usleep(50);
 	current = pl_time();
 	while (1)
 	{
@@ -106,7 +106,8 @@ int	pl_show(t_thread *pl,
 		return (1);
 	}
 	pthread_mutex_unlock(pl->record->end_mut);
-	pl_show_run(timestamp, pl->id, msg, printer);
+	if (pl_show_run(timestamp, pl, msg, printer) == 1)
+		return (1);
 	if (msg[3] == 'e')
 	{
 		pl->temp = pl_time();
@@ -126,15 +127,24 @@ int	pl_show(t_thread *pl,
 	return (0);
 }
 
-void	pl_show_run(unsigned int timestamp, int id,
+int	pl_show_run(unsigned int timestamp, t_thread *pl,
 	char *msg, pthread_mutex_t *printer)
 {
 	pthread_mutex_lock(printer);
+	if (pl->record->printswitch == OFF)
+	{
+		pthread_mutex_lock(printer);
+		return (1);
+	}
 	if (msg[3] == 'd')
 	{
-		printf("%u %d %s\n", timestamp, id, msg);
+		printf("%u %ld %s\n", timestamp, pl->id, msg);
+		pl->record->printswitch = OFF;
+		pthread_mutex_unlock(printer);
+		return (1);
 	}
 	else
-		printf("%u %d %s\n", timestamp, id, msg);
+		printf("%u %ld %s\n", timestamp, pl->id, msg);
 	pthread_mutex_unlock(printer);
+	return (0);
 }

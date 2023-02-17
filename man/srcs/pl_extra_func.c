@@ -6,7 +6,7 @@
 /*   By: yichan <yichan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 22:16:52 by yichan            #+#    #+#             */
-/*   Updated: 2023/02/16 02:47:13 by yichan           ###   ########.fr       */
+/*   Updated: 2023/02/17 16:56:51 by yichan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,19 +58,38 @@ int	meal_target_check(t_thread *pl, int *i, long current)
 
 int	pl_eat(t_thread *pl, t_book	*record)
 {
-	pthread_mutex_lock((*pl).l_fork);
-	if (pl_show(pl, FORK, record->printer) == 1)
+	// pthread_mutex_lock((*pl).l_fork);
+	// if (pl_show(pl, FORK, record->printer) == 1)
+	// {
+	// 	pthread_mutex_unlock((*pl).l_fork);
+	// 	return (1);
+	// }
+	// pthread_mutex_lock((*pl).r_fork);
+	// if (pl_show(pl, FORK, record->printer) == 1)
+	// {
+	// 	pthread_mutex_unlock((*pl).l_fork);
+	// 	pthread_mutex_unlock((*pl).r_fork);
+	// 	return (1);
+	// }
+	if (pl->id == pl-> pl_num)
 	{
-		pthread_mutex_unlock((*pl).l_fork);
-		return (1);
+		pl->temp = pl_time() - pl->starttime;
+		pthread_mutex_lock((*pl).l_fork);
+		pl_show(pl, FORK, record->printer);
+		// pthread_mutex_unlock((*pl).l_fork);
+		pthread_mutex_lock((*pl).r_fork);
+		pl_show(pl, FORK, record->printer);
 	}
-	pthread_mutex_lock((*pl).r_fork);
-	if (pl_show(pl, FORK, record->printer) == 1)
+	else
 	{
-		pthread_mutex_unlock((*pl).l_fork);
-		pthread_mutex_unlock((*pl).r_fork);
-		return (1);
+		pl->temp = pl_time() - pl->starttime;
+		pthread_mutex_lock((*pl).l_fork);
+		pl_show(pl, FORK, record->printer);
+		// pthread_mutex_unlock((*pl).l_fork);
+		pthread_mutex_lock((*pl).r_fork);
+		pl_show(pl, FORK, record->printer);
 	}
+	// pthread_mutex_unlock((*pl).r_fork);
 	if (pl_show(pl, EAT, record->printer) == 1)
 	{
 		pthread_mutex_unlock(pl->l_fork);

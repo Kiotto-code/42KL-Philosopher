@@ -33,7 +33,8 @@
 # define SLEEP "is sleeping"
 # define THINK "is thinking"
 # define DIED "died"
-
+# define ON 1
+# define OFF 2
 	// long			pl_num;
 	// long			time_to_die;
 	// long			time_to_eat;
@@ -58,6 +59,7 @@ typedef struct s_book
 	pthread_mutex_t	*end_mut;
 	pthread_mutex_t	*wake_mut;
 	void			*plptr;
+	int				printswitch;
 }	t_book;
 
 // philo struct
@@ -102,7 +104,7 @@ long	pl_time(void);
 void	pl_usleep(long num);
 int		pl_show(t_thread *pl,
 			char *msg, pthread_mutex_t *printer);
-void	pl_show_run(unsigned int timestamp, int id,
+int		pl_show_run(unsigned int timestamp, t_thread *pl,
 			char *msg, pthread_mutex_t *printer);
 void	*pl_checker(void *phls_void);
 

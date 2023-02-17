@@ -59,6 +59,7 @@ int	check_argument(int ac, char **av, t_book *record)
 	record->end = 0;
 	record->full_counter = 0;
 	record->meal_target = -1;
+	record->printswitch = ON;
 	if (ac == 6)
 		record->meal_target = ft_atoi(av[5]);
 	return (0);

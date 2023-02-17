@@ -21,7 +21,8 @@ void	*pl_deadcheck(t_thread *pl)
 	{
 		pl_call_end(pl->record->plptr);
 		pl_show_run(current - pl->starttime, \
-					pl->id, DIED, pl->record->printer);
+					pl, DIED, pl->record->printer);
+		// pl_show(pl, DIED, pl->record->printer);
 		// pthread_mutex_unlock(pl->record->full_mut);
 		return ((void *) 1);
 	}
