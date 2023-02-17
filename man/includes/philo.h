@@ -109,7 +109,7 @@ int		pl_show_run(unsigned int timestamp, t_thread *pl,
 void	*pl_checker(void *phls_void);
 
 // pl_extra_func.c
-int		meal_target_check(t_thread *pl, int *i, long current);
+int		meal_target_check(t_thread *pl, int *i, long *current);
 int		pl_eat(t_thread *pl, t_book	*record);
 int		pl_sleep_think(t_thread *pl, t_book	*record);
 void	pl_call_end(t_thread *pl);

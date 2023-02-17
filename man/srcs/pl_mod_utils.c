@@ -48,7 +48,7 @@ void	*pl_checker(void *temp)
 	current = pl_time();
 	while (1)
 	{
-		if (meal_target_check(pl, &i, current) == 1)
+		if (meal_target_check(pl, &i, &current) == 1)
 			return ((void *) 1);
 		pl->record->temp = pl_time();
 		// current = pl->record->temp;

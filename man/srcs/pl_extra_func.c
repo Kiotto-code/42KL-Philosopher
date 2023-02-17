@@ -6,7 +6,7 @@
 /*   By: yichan <yichan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 22:16:52 by yichan            #+#    #+#             */
-/*   Updated: 2023/02/17 16:56:51 by yichan           ###   ########.fr       */
+/*   Updated: 2023/02/17 19:35:10 by yichan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	pl_call_end(t_thread *pl)
 	// usleep(500);
 }
 
-int	meal_target_check(t_thread *pl, int *i, long current)
+int	meal_target_check(t_thread *pl, int *i, long *current)
 {
 	t_book	*record;
 
@@ -40,7 +40,7 @@ int	meal_target_check(t_thread *pl, int *i, long current)
 	if (*i >= pl->record->pl_num)
 	{
 		*i = 0;
-		current = pl_time();
+		*current = pl_time();
 	}
 	pthread_mutex_lock(record->full_mut);
 	if (pl->record->meal_target > 0)
