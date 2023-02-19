@@ -81,7 +81,7 @@ void pl_usleep(long num)
 	total = num + i;
 	while (1)
 	{
-		usleep(50);
+		usleep(500);
 		if (pl_time() >= total)
 			break;
 	}

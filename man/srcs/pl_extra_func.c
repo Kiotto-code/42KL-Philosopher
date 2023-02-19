@@ -6,7 +6,7 @@
 /*   By: yichan <yichan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 22:16:52 by yichan            #+#    #+#             */
-/*   Updated: 2023/02/17 19:35:10 by yichan           ###   ########.fr       */
+/*   Updated: 2023/02/19 21:28:43 by yichan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,10 +74,10 @@ int	pl_eat(t_thread *pl, t_book	*record)
 	if (pl->id == pl-> pl_num)
 	{
 		pl->temp = pl_time() - pl->starttime;
-		pthread_mutex_lock((*pl).l_fork);
+		pthread_mutex_lock((*pl).r_fork);
 		pl_show(pl, FORK, record->printer);
 		// pthread_mutex_unlock((*pl).l_fork);
-		pthread_mutex_lock((*pl).r_fork);
+		pthread_mutex_lock((*pl).l_fork);
 		pl_show(pl, FORK, record->printer);
 	}
 	else
