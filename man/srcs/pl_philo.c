@@ -15,18 +15,15 @@
 void	*pl_deadcheck(t_thread *pl)
 {
 	long int	current;
-	// pthread_mutex_lock(pl->record->full_mut);
+
 	current = pl->record->temp;
 	if ((current - pl->last_meal) > pl->time_to_die)
 	{
 		pl_call_end(pl->record->plptr);
 		pl_show_run(current - pl->starttime, \
 					pl, DIED, pl->record->printer);
-		// pl_show(pl, DIED, pl->record->printer);
-		// pthread_mutex_unlock(pl->record->full_mut);
 		return ((void *) 1);
 	}
-	// pthread_mutex_unlock(pl->record->full_mut);
 	return (NULL);
 }
 
@@ -35,9 +32,7 @@ int	pl_check_full(t_thread *pl, t_book *record)
 	(void)pl;
 	if (record->full_counter == record->pl_num)
 	{
-		// pthread_mutex_lock(record->printer);
 		pl_call_end(record->plptr);
-		// pthread_mutex_unlock(record->printer);
 		return (1);
 	}
 	return (0);
@@ -99,7 +94,6 @@ int	pl_run_trd(t_thread *pl, t_book *record)
 	}
 	i = -1;
 	pthread_create(&checker[0], NULL, &pl_checker, (void *)pl);
-	// pthread_create(&checker[1], NULL, &pl_killer, (void *)pl);
 	pthread_join(*checker, NULL);
 	while (++i < record->pl_num)
 		pthread_join(thread[i], NULL);

@@ -78,7 +78,6 @@ typedef struct s_thread
 	long			starttime;
 	long			end;
 	long			temp;
-	// long			awake;
 	pthread_mutex_t	*l_fork;
 	pthread_mutex_t	*r_fork;
 }	t_thread;
