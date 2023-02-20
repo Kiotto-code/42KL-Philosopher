@@ -1,0 +1,7 @@
+.vscode
+tempCode*
+.DS_Store
+a.out*
+*.o
+*tester
+*.gch

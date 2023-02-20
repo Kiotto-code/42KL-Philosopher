@@ -91,7 +91,7 @@ void	*pl_deadcheck(t_thread *pl);
 int		pl_init_pl(t_thread *pl, pthread_mutex_t *action,
 			pthread_mutex_t *fork, t_book *record);
 
-// pl_error.c
+// pl_extrafunc2.c
 int		err_display(char str[]);
 
 // sl_libft.c
