@@ -6,7 +6,7 @@
 /*   By: yichan <yichan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 22:16:52 by yichan            #+#    #+#             */
-/*   Updated: 2023/02/20 23:45:34 by yichan           ###   ########.fr       */
+/*   Updated: 2023/02/20 23:49:59 by yichan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,6 @@ int	pl_eat(t_thread *pl, t_book	*record)
 	pl_usleep(record->time_to_eat);
 	pthread_mutex_unlock(pl->l_fork);
 	pthread_mutex_unlock(pl->r_fork);
-	// if (pl->id % 2 == 0)
-	// 	usleep(500);
 	return (0);
 }
 
@@ -81,7 +79,5 @@ int	pl_sleep_think(t_thread *pl, t_book	*record)
 	pl_usleep(record->time_to_sleep);
 	if (pl_show(pl, THINK, record->printer) == 1)
 		return (1);
-	// if (pl->id % 2 == 0)
-	// 	usleep(500);
 	return (0);
 }

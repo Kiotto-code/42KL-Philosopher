@@ -26,7 +26,7 @@ void	*pl_checker(void *temp)
 	{
 		if (meal_target_check(pl, &i, &current) == 1)
 			return ((void *)1);
-		pl->record->temp = pl_time();
+		pl->record->temp = current;
 		pthread_mutex_lock(pl->record->full_mut);
 		if (pl_deadcheck(&pl[i]) == (void *)1)
 		{

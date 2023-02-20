@@ -49,17 +49,17 @@ typedef struct s_book
 	long			time_to_eat;
 	long			time_to_sleep;
 	long			meal_target;
-	long			starttime;
 	long			end;
 	long			full_counter;
 	long			temp;
 	long			awake;
+	long			starttime;
+	int				printswitch;
 	pthread_mutex_t	*printer;
 	pthread_mutex_t	*full_mut;
 	pthread_mutex_t	*end_mut;
 	pthread_mutex_t	*wake_mut;
 	void			*plptr;
-	int				printswitch;
 }	t_book;
 
 // philo struct

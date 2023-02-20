@@ -35,6 +35,23 @@ int	check_digit(int ac, char**av)
 	return (0);
 }
 
+void	record_fill(int ac, char **av, t_book *record)
+{
+	record->pl_num = ft_atoi(av[1]);
+	record->time_to_die = ft_atoi(av[2]);
+	record->time_to_eat = ft_atoi(av[3]);
+	record->time_to_sleep = ft_atoi(av[4]);
+	record->meal_target = -1;
+	record->end = 0;
+	record->full_counter = 0;
+	record->temp = 0;
+	record->awake = 0;
+	record->printswitch = ON;
+	record->starttime = 0;
+	if (ac == 6)
+		record->meal_target = ft_atoi(av[5]);
+}
+
 int	check_argument(int ac, char **av, t_book *record)
 {
 	int	i;
@@ -52,16 +69,7 @@ int	check_argument(int ac, char **av, t_book *record)
 		err_display ("Wrong argument");
 		return (1);
 	}
-	record->pl_num = ft_atoi(av[1]);
-	record->time_to_die = ft_atoi(av[2]);
-	record->time_to_eat = ft_atoi(av[3]);
-	record->time_to_sleep = ft_atoi(av[4]);
-	record->end = 0;
-	record->full_counter = 0;
-	record->meal_target = -1;
-	record->printswitch = ON;
-	if (ac == 6)
-		record->meal_target = ft_atoi(av[5]);
+	record_fill(ac, av, record);
 	return (0);
 }
 
