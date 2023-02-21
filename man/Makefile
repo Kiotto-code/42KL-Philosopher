@@ -22,7 +22,9 @@ SRC_PATH	= ./srcs
 OBJ_PATH	= ./obj
 
 SRCS	= $(wildcard ./*/pl_*.c)
-OBJS	= ${SRCS:./srcs/%.c=${OBJ_PATH}/%.o}
+# OBJS	= ${SRCS:./srcs/%.c=${OBJ_PATH}/%.o}
+OBJS	= ${SRCS:./srcs/%.c=./obj/%.o}
+
 
 all				:	$(NAME)
 
