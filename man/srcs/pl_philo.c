@@ -84,8 +84,8 @@ int	pl_run_trd(t_thread *pl, t_book *record)
 
 	thread = (pthread_t *)ft_calloc(sizeof(pthread_t) * record->pl_num);
 	checker = (pthread_t *)ft_calloc(sizeof(pthread_t));
-	record->starttime = pl_time();
 	i = -1;
+	record->starttime = pl_time();
 	while (++i < record->pl_num)
 	{
 		if (pthread_create(&thread[i], NULL,
