@@ -75,6 +75,11 @@ int	check_argument(int ac, char **av, t_book *record)
 		err_display("philosopher number less than 1");
 		return (1);
 	}
+	if (record->meal_target < 1 && ac == 6)
+	{
+		err_display("meal_target number less than 1");
+		return (1);
+	}
 	return (0);
 }
 
