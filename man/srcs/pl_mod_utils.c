@@ -81,6 +81,7 @@ int	pl_eatcheck(t_thread *pl, char *msg)
 // ◦ timestamp_in_ms X is thinking
 // ◦ timestamp_in_ms X died
 
+// pthread mutex endmut to ensure all the thread able to return
 int	pl_show(t_thread *pl,
 			char *msg, pthread_mutex_t *printer)
 {

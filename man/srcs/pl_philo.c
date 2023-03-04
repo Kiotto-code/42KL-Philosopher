@@ -46,7 +46,7 @@ int	pl_check_full(t_thread *pl, t_book *record)
  * @return void*
  */
 
-void	*motherfucker(void *temp)
+void	*pthread_run(void *temp)
 {
 	t_thread	*pl;
 	t_book		*record;
@@ -89,7 +89,7 @@ int	pl_run_trd(t_thread *pl, t_book *record)
 	while (++i < record->pl_num)
 	{
 		if (pthread_create(&thread[i], NULL,
-				&motherfucker, (void *)&pl[i]) != 0)
+				&pthread_run, (void *)&pl[i]) != 0)
 			return (err_display("Pthread Create Error"));
 	}
 	i = -1;
