@@ -20,7 +20,7 @@ void	*pl_checker(void *temp)
 
 	i = 0;
 	pl = (t_thread *)temp;
-	pl_usleep(50);
+	usleep(50);
 	current = pl_time();
 	while (1)
 	{

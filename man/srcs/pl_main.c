@@ -14,7 +14,7 @@
 
 int	check_value(int n)
 {
-	if (n < 1)
+	if (n < 0)
 		return (err_display("arg value not greater than 0\n"));
 	return (0);
 }
@@ -70,6 +70,11 @@ int	check_argument(int ac, char **av, t_book *record)
 		return (1);
 	}
 	record_fill(ac, av, record);
+	if (record->pl_num < 1)
+	{
+		err_display("philosopher number less than 1");
+		return (1);
+	}
 	return (0);
 }
 
