@@ -127,5 +127,4 @@ int	philo(t_book *record)
 		pthread_mutex_destroy(record->end_mut),
 		pthread_mutex_destroy(record->full_mut),
 		pthread_mutex_destroy(record->wake_mut), 0);
-	return (0);
 }
