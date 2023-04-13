@@ -6,18 +6,27 @@
 /*   By: yichan <yichan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 19:11:58 by yichan            #+#    #+#             */
-/*   Updated: 2023/04/13 19:12:00 by yichan           ###   ########.fr       */
+/*   Updated: 2023/04/13 20:27:28 by yichan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo_bonus.h"
 
+// void	sem_opener(t_data *data)
+// {
+// 	if (sem_unlink("print_sem") == -1)
+// 		exit(1);
+// 	if (sem_unlink("fork"))
+// 		exit(1);
+// 	sem_unlink("print_sem");
+// 	sem_unlink("fork");
+// 	data->print_sem = sem_open("print_sem", O_CREAT, 0644, 1);
+// 	data->fork = sem_open("fork", O_CREAT, 0644, data->num_phls);
+// 	if (data->print_sem == 0 || data->fork == 0)
+// 		exit(1);
+// }
 void	sem_opener(t_data *data)
 {
-//	if (sem_unlink("print_sem") == -1)
-//		exit(1);
-//	if (sem_unlink("fork"))
-//		exit(1);
 	sem_unlink("print_sem");
 	sem_unlink("fork");
 	data->print_sem = sem_open("print_sem", O_CREAT, 0644, 1);
