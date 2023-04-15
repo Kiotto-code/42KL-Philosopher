@@ -13,27 +13,27 @@
 NAME    =   philo
 CC		=	gcc
 RM		=	rm -rf
-CFLAGS	=	-Wall -Werror -Wextra -g3
+CFLAGS	=	-Wall -Werror -Wextra #-g3
 CFLAGS	+=	-pthread
 # CFLAGS	+=	-fsanitize=thread
 # CFLAGS	+=	-fsanitize=address
 INCLUDES	= ./includes
-SRC_PATH	= ./srcs/
+SRC_PATH	= ./srcs
 OBJ_PATH	= ./obj
 
 # SRCS	= $(wildcard ./*/pl_*.c)
-SRCS	= $(wildcard srcs/*.c)
+SRCS	= $(wildcard $(SRC_PATH)/*.c)
 # OBJS	= ${SRCS:./srcs/%.c=${OBJ_PATH}/%.o}
-# OBJS	= $(patsubst %.c,$(OBJ_PATH)/%.o,$(notdir $(SRCS)))
-OBJS 	= $(patsubst $(SRCS_DIR)/%.c , $(OBJ_DIR)/%.o, $(SRCS))
+# OBJS	= $(patsubst %.c, $(OBJ_PATH)/%.o, $(notdir $(SRCS)))
+OBJS 	= $(patsubst $(SRC_PATH)/%.c , $(OBJ_PATH)/%.o, $(SRCS))
 
 
 all				:	$(NAME)
 
 $(NAME)			:	$(OBJS)
-					$(CC) $(CFLAGS) $^ -I $(INCLUDES) -o $@
+					$(CC) $(CFLAGS) $^ -I$(INCLUDES) -o $@
 
-$(OBJ_PATH)/%.o	:	$(SRC_PATH)/%.c ./includes/*.h ./Makefile | $(OBJ_PATH)
+$(OBJ_PATH)/%.o	:	$(SRC_PATH)/%.c* $(INCLUDES)/*.h ./Makefile | $(OBJ_PATH)
 					$(CC) $(CFLAGS) -c -I$(INCLUDES) $< -o $@
 
 $(OBJ_PATH)		:
