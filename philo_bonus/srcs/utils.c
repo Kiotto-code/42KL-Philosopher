@@ -6,11 +6,17 @@
 /*   By: yichan <yichan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 19:12:03 by yichan            #+#    #+#             */
-/*   Updated: 2023/04/13 19:12:06 by yichan           ###   ########.fr       */
+/*   Updated: 2023/04/16 01:57:04 by yichan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo_bonus.h"
+
+void	create_sem(sem_t *sem, const char *name, int count)
+{
+	sem_unlink(name);
+	sem = sem_open(name, O_CREAT, 0644, count);
+}
 
 int	ft_atoi(const char *str)
 {
@@ -38,16 +44,9 @@ int	ft_atoi(const char *str)
 	return ((int)num);
 }
 
-int	err_msg(int err_number)
+int	err_msg(char *err)
 {
-	if (err_number == WRONG_COUNT_OF_ARGUMENTS)
-		printf("you passed the wrong number of arguments\n");
-	else if (err_number == WRONG_ARGUMENT)
-		printf("you passed the wrong argument\n");
-	else if (err_number == MALLOC_ERROR)
-		printf("malloc error\n");
-	else if (err_number == PTHREAD_ERROR)
-		printf("pthread error\n");
+	printf ("%s\n", err);
 	return (1);
 }
 

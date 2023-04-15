@@ -6,7 +6,7 @@
 /*   By: yichan <yichan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 19:12:13 by yichan            #+#    #+#             */
-/*   Updated: 2023/04/13 19:12:15 by yichan           ###   ########.fr       */
+/*   Updated: 2023/04/16 01:55:41 by yichan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,6 @@
 # include <sys/time.h>
 # include <sys/wait.h>
 
-# define WRONG_COUNT_OF_ARGUMENTS	-1
-# define WRONG_ARGUMENT				-2
-# define MALLOC_ERROR				-3
-# define PTHREAD_ERROR				-4
-# define FORK_ERROR					-5
-
 # define L_FORK_TAKEN	1
 # define R_FORK_TAKEN	2
 # define EATING			3
@@ -39,13 +33,15 @@
 
 typedef struct s_data
 {
+	pid_t	*num_pid;
 	int		num_phls;
 	int		tm_die;
 	int		tm_eat;
 	int		tm_sleep;
-	int		notepme;
+	int		mealtarget;
 	long	creation_time;
 	sem_t	*fork;
+	// sem_t	*lmeal_rec;
 	sem_t	*print_sem;
 }	t_data;
 
@@ -57,9 +53,10 @@ typedef struct s_philo
 	int		num_meals;
 	int		satiety;
 	long	last_meal;
+	sem_t	*lmeal_rec;
 }	t_philo;
 
-int		argv_processing(t_data *data, int argc, char **argv);
+int		initialize(t_data *data, int argc, char **argv);
 int		philosophers(t_data *data);
 int		philo_create_and_start(t_philo *phls, t_data *data);
 void	phls_life(void *phls);
@@ -74,9 +71,13 @@ void	sem_closer(t_data *data);
 void	*life_checker(void *phls);
 int		satiety_checker(t_philo *phls);
 
+void	create_sem(sem_t *sem, const char *name, int count);
 int		ft_atoi(const char *str);
-int		err_msg(int err_number);
+int		err_msg(char *err);
 void	phls_msg(int msg_code, long time, int id, sem_t *print_sem);
 long	get_time(void);
+
+char	*ft_strjoin(char *s1, char const *s2);
+char	*ft_itoa(int n);
 
 #endif

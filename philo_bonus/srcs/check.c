@@ -6,7 +6,7 @@
 /*   By: yichan <yichan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 19:11:41 by yichan            #+#    #+#             */
-/*   Updated: 2023/04/13 19:11:44 by yichan           ###   ########.fr       */
+/*   Updated: 2023/04/15 20:44:08 by yichan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	*life_checker(void *phls_void)
 	phls = (t_philo *)phls_void;
 	while (1)
 	{
-		if (phls->data->notepme > 0)
+		if (phls->data->mealtarget > 0)
 		{
 			if (satiety_checker(phls) == 1)
 				exit (0);
@@ -60,8 +60,8 @@ int	philo_checker(t_philo *phls)
 	pthread_t	checker;
 
 	if (pthread_create(&checker, NULL, life_checker, (void *)phls) != 0)
-		return (err_msg(PTHREAD_ERROR));
+		return (err_msg("PTHREAD_ERROR"));
 	if (pthread_detach(checker) != 0)
-		return (err_msg(PTHREAD_ERROR));
+		return (err_msg("PTHREAD_ERROR"));
 	return (0);
 }
