@@ -6,7 +6,7 @@
 /*   By: yichan <yichan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 19:11:41 by yichan            #+#    #+#             */
-/*   Updated: 2023/04/15 20:44:08 by yichan           ###   ########.fr       */
+/*   Updated: 2023/04/17 03:52:56 by yichan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,14 @@ void	*life_checker(void *phls_void)
 			if (satiety_checker(phls) == 1)
 				exit (0);
 		}
+		sem_wait(phls->lmeal_rec);
 		if ((get_time() - phls->last_meal) > phls->data->tm_die)
 		{
 			phls_msg(DIED, get_time() - phls->data->creation_time, \
 						phls->id, phls->data->print_sem);
 			exit (0);
 		}
+		sem_post(phls->lmeal_rec);
 		it++;
 		usleep(100);
 	}

@@ -6,14 +6,15 @@
 #    By: yichan <yichan@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/15 16:27:06 by yichan            #+#    #+#              #
-#    Updated: 2023/04/16 02:08:44 by yichan           ###   ########.fr        #
+#    Updated: 2023/04/22 23:31:51 by yichan           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME 		= philo_bonus
 CC	 		= gcc
 RM	 		= rm -rf
-CFLAGS		= -Wall -Werror -Wextra -g3
+CFLAGS		= -Wall -Werror -Wextra -g3 
+# CFLAGS		+= -pthread
 CFLAGS		+= 	-g -fsanitize=thread
 INCLUDE 	= ./include
 SRC_PATH 	= ./srcs

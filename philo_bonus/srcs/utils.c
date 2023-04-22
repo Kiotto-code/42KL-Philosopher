@@ -6,7 +6,7 @@
 /*   By: yichan <yichan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 19:12:03 by yichan            #+#    #+#             */
-/*   Updated: 2023/04/16 01:57:04 by yichan           ###   ########.fr       */
+/*   Updated: 2023/04/17 03:56:43 by yichan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	create_sem(sem_t *sem, const char *name, int count)
 {
 	sem_unlink(name);
+	sem_close(sem);
 	sem = sem_open(name, O_CREAT, 0644, count);
 }
 

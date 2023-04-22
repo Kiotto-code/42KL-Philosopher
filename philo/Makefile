@@ -15,17 +15,18 @@ CC		=	gcc
 RM		=	rm -rf
 CFLAGS	=	-Wall -Werror -Wextra #-g3
 CFLAGS	+=	-pthread
-# CFLAGS	+=	-fsanitize=thread
+CFLAGS	+=	-fsanitize=thread
 # CFLAGS	+=	-fsanitize=address
 INCLUDES	= ./includes
 SRC_PATH	= ./srcs
 OBJ_PATH	= ./obj
 
-# SRCS	= $(wildcard ./*/pl_*.c)
-SRCS	= $(wildcard $(SRC_PATH)/*.c)
+SRCS	= $(wildcard ./*/pl_*.c)
+# SRCS	= $(wildcard $(SRC_PATH)/*.c)
+# SRCS	= $(shell find $(SRC_PATH) -name "*.c")
 # OBJS	= ${SRCS:./srcs/%.c=${OBJ_PATH}/%.o}
 # OBJS	= $(patsubst %.c, $(OBJ_PATH)/%.o, $(notdir $(SRCS)))
-OBJS 	= $(patsubst $(SRC_PATH)/%.c , $(OBJ_PATH)/%.o, $(SRCS))
+OBJS 	= $(patsubst $(SRC_PATH)/%.c, $(OBJ_PATH)/%.o, $(SRCS))
 
 
 all				:	$(NAME)
@@ -41,11 +42,11 @@ $(OBJ_PATH)		:
 
 clean			:
 # $(MAKE) -C $(LIBFT_PATH) $@
-					rm -rf $(OBJ_PATH)
+					$(RM) $(OBJ_PATH)
 
 fclean			:	clean
 # $(MAKE) -C $(LIBFT_PATH) $@
-					rm -rf $(NAME)
+					$(RM) $(NAME)
 
 re				:	fclean all
 

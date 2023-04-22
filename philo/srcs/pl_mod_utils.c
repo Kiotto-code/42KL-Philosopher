@@ -11,7 +11,14 @@
 /* ************************************************************************** */
 
 #include "philo.h"
-
+/**
+ * @brief the thread waits for the mutex to become available.
+ * 			Format: void *(*start_routine)(void *),
+ * 
+ * 
+ * @param temp
+ * @return void* 
+ */
 void	*pl_checker(void *temp)
 {
 	int			i;
