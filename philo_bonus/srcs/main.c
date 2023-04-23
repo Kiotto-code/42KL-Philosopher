@@ -6,7 +6,7 @@
 /*   By: yichan <yichan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 19:11:53 by yichan            #+#    #+#             */
-/*   Updated: 2023/04/15 21:11:06 by yichan           ###   ########.fr       */
+/*   Updated: 2023/04/23 20:00:51 by yichan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ int	initialize(t_data *data, int argc, char **argv)
 	data->tm_eat = ft_atoi(argv[3]);
 	data->tm_sleep = ft_atoi(argv[4]);
 	data->mealtarget = 0;
+	data->creation_time = 0;
 	if (data->num_phls < 1 || data->tm_die < 1 || data->tm_eat < 1 \
 		|| data->tm_sleep < 1)
 		return (err_msg("WRONG_ARGUMENT"));

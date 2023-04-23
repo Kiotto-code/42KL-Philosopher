@@ -6,7 +6,7 @@
 /*   By: yichan <yichan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 19:12:13 by yichan            #+#    #+#             */
-/*   Updated: 2023/04/16 01:55:41 by yichan           ###   ########.fr       */
+/*   Updated: 2023/04/23 21:27:23 by yichan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,23 +59,26 @@ typedef struct s_philo
 int		initialize(t_data *data, int argc, char **argv);
 int		philosophers(t_data *data);
 int		philo_create_and_start(t_philo *phls, t_data *data);
-void	phls_life(void *phls);
+void	phls_life(t_philo	*phls);
 void	philo_takes_forks(t_philo *phls);
 void	philo_eating(t_philo *phls);
 void	philo_sleeping(t_philo *phls);
 void	eating_or_sleeping(long time);
 int		philo_checker(t_philo *phls);
 void	sem_opener(t_data *data);
-void	sem_closer(t_data *data);
+void	sem_closer(t_data *data, t_philo *phls);
 
 void	*life_checker(void *phls);
 int		satiety_checker(t_philo *phls);
 
-void	create_sem(sem_t *sem, const char *name, int count);
+sem_t	*create_sem(sem_t *sem, const char *name, int count);
+void	ph_lmeal_rec(t_philo *phls);
 int		ft_atoi(const char *str);
+long	get_time(void);
+
+// message.c
 int		err_msg(char *err);
 void	phls_msg(int msg_code, long time, int id, sem_t *print_sem);
-long	get_time(void);
 
 char	*ft_strjoin(char *s1, char const *s2);
 char	*ft_itoa(int n);

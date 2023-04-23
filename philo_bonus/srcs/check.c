@@ -6,7 +6,7 @@
 /*   By: yichan <yichan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 19:11:41 by yichan            #+#    #+#             */
-/*   Updated: 2023/04/17 03:52:56 by yichan           ###   ########.fr       */
+/*   Updated: 2023/04/23 21:50:58 by yichan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int	satiety_checker(t_philo *phls)
 void	*life_checker(void *phls_void)
 {
 	int		it;
+	int		tmp;
 	t_philo	*phls;
 
 	it = 0;
@@ -43,11 +44,14 @@ void	*life_checker(void *phls_void)
 			if (satiety_checker(phls) == 1)
 				exit (0);
 		}
+		// check = (get_time() - phls->last_meal) > phls->data->tm_die;
+		tmp = get_time();
 		sem_wait(phls->lmeal_rec);
-		if ((get_time() - phls->last_meal) > phls->data->tm_die)
+		if ((tmp - phls->last_meal) > phls->data->tm_die)
 		{
-			phls_msg(DIED, get_time() - phls->data->creation_time, \
+			phls_msg(DIED, tmp - phls->data->creation_time, \
 						phls->id, phls->data->print_sem);
+			sem_post(phls->lmeal_rec);
 			exit (0);
 		}
 		sem_post(phls->lmeal_rec);

@@ -6,7 +6,7 @@
 /*   By: yichan <yichan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 19:11:58 by yichan            #+#    #+#             */
-/*   Updated: 2023/04/17 04:11:57 by yichan           ###   ########.fr       */
+/*   Updated: 2023/04/23 21:47:33 by yichan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,10 @@
 // }
 void	sem_opener(t_data *data)
 {
-	create_sem(data->print_sem, "print_sem", 1);
-	create_sem(data->fork, "fork", data->num_phls);
+	// sem_unlink("print_sem");
+	// sem_unlink("fork");
+	data->print_sem = create_sem(data->print_sem, "print_sem", 1);
+	data->fork = create_sem(data->fork, "fork", data->num_phls);
 	// sem_unlink("print_sem");
 	// sem_unlink("fork");
 	// sem_unlink("lmeal_rec");
@@ -57,16 +59,38 @@ void	sem_opener(t_data *data)
 	// printf("checking\n");
 }
 
-void	sem_closer(t_data *data)
+// void	sem_closer(t_data *data)
+// {
+// 	if (sem_unlink("print_sem") == -1)
+// 		exit(1);
+// 	if (sem_close(data->print_sem))
+// 		exit(1);
+// 	if (sem_unlink("fork"))
+// 		exit(1);
+// 	if (sem_close(data->fork))
+// 		exit(1);
+// }
+
+void	sem_closer(t_data *data, t_philo *phls)
 {
-	if (sem_unlink("print_sem") == -1)
-		exit(1);
+	int it;
+
+	it = -1;
 	if (sem_close(data->print_sem))
 		exit(1);
-	if (sem_unlink("fork"))
+	if (sem_unlink("print_sem") == -1)
 		exit(1);
 	if (sem_close(data->fork))
 		exit(1);
+	if (sem_unlink("fork"))
+		exit(1);
+	while (phls[++it].pid)
+	{
+		if (sem_close(phls[it].lmeal_rec))
+			exit(1);
+		if (sem_unlink("lmeal_rec"))
+			exit(1);
+	}
 }
 
 // int	philo_create_and_start(t_philo *phls, t_data *data)
@@ -102,17 +126,18 @@ void	setup_philo(t_philo *phls, t_data *data)
 	it = -1;
 	while (++it < data->num_phls)
 	{
-		if (phls->pid == 0)
+		if (phls[it].pid == 0)
 		{
-			phls->id = it + 1;
+			phls[it].id = it + 1;
 			// printf("phls->id: %d\n", phls->id);
-			phls->data = data;
+			phls[it].data = data;
 			if (data->mealtarget > 0)
 			{
-				phls->num_meals = 0;
-				phls->satiety = 0;
+				phls[it].num_meals = 0;
+				phls[it].satiety = 0;
 			}
 		}
+		ph_lmeal_rec(&(phls[it]));
 	}
 }
 
@@ -120,26 +145,19 @@ int	philo_create_and_start(t_philo *phls, t_data *data)
 {
 	int	it;
 
-	data->creation_time = get_time();
 	setup_philo(phls, data);
-	it = -1;
-	while (++it < data->num_phls)
+	it = 0;
+	data->creation_time = get_time();
+	while (it < data->num_phls)
 	{
-		data->num_pid[it] = fork();
-		// printf("numpid: %d\n", data->num_pid[it]);
-		if (data->num_pid[it] == -1 && data->num_pid[it] != 0)
+		phls[it].pid = fork();
+		if (phls[it].pid == -1)
 			return (err_msg("FORK_ERROR"));
-		if (data->num_pid[it] == 0)
+		if (phls[it].pid == 0)
 		{
-			phls[it].id = it + 1;
-			phls[it].data = data;
-			if (data->mealtarget > 0)
-			{
-				phls[it].num_meals = 0;
-				phls[it].satiety = 0;
-			}
-			phls_life((void *)&phls[it]);
+			phls_life(&phls[it]);
 		}
+		it++;
 	}
 	return (0);
 }
@@ -151,8 +169,7 @@ int	philosophers(t_data *data)
 	int		it;
 
 	it = 0;
-	phls = (t_philo *)malloc(sizeof(t_philo));
-	data->num_pid = malloc(sizeof(pid_t) * data->num_phls);
+	phls = (t_philo *)malloc(sizeof(t_philo) * data->num_phls);
 	if (!phls)
 		return (1);
 	sem_opener(data);
@@ -163,10 +180,10 @@ int	philosophers(t_data *data)
 	while (it < data->num_phls)
 	{
 		// kill(phls[it].pid, SIGKILL);
-		kill(data->num_pid[it], SIGKILL);
+		kill(phls[it].pid, SIGKILL);
 		it++;
 	}
-	sem_closer(data);
+	sem_closer(data, phls);
 	free(phls);
 	return (0);
 }
