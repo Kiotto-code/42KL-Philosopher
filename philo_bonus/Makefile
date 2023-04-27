@@ -6,7 +6,7 @@
 #    By: yichan <yichan@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/15 16:27:06 by yichan            #+#    #+#              #
-#    Updated: 2023/04/23 21:51:24 by yichan           ###   ########.fr        #
+#    Updated: 2023/04/27 16:51:50 by yichan           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ CC	 		= gcc
 RM	 		= rm -rf
 CFLAGS		= -Wall -Werror -Wextra -g3 
 # CFLAGS		+= -pthread
-CFLAGS		+= 	-g -fsanitize=thread
+CFLAGS		+= 	-g #-fsanitize=address
 INCLUDE 	= ./include
 SRC_PATH 	= ./srcs
 OBJ_PATH	= ./obj
