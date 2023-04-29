@@ -6,7 +6,7 @@
 /*   By: yichan <yichan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 19:12:03 by yichan            #+#    #+#             */
-/*   Updated: 2023/04/25 17:31:22 by yichan           ###   ########.fr       */
+/*   Updated: 2023/04/29 00:50:58 by yichan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	ph_lmeal_rec(t_philo *phls)
 	sem_name = ft_strjoin("lmeal_rec", philo_id);
 	// printf("sem_name = %s, philo_id = %s\n", sem_name, philo_id);
 	// phls->lmeal_rec = create_sem(phls->lmeal_rec, sem_name, 1);
-	phls->lmeal_rec = sem_open(sem_name, O_CREAT, 0644, 1);
+	phls->lmeal_rec = sem_open(sem_name, O_CREAT, 0644, 0);
 	sem_unlink(sem_name);
 	// printf("phls->lmeal_rec = %p\n", &(phls->lmeal_rec));
 	if (phls->lmeal_rec == SEM_FAILED)

@@ -6,7 +6,7 @@
 /*   By: yichan <yichan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 19:12:13 by yichan            #+#    #+#             */
-/*   Updated: 2023/04/23 21:27:23 by yichan           ###   ########.fr       */
+/*   Updated: 2023/04/27 17:32:05 by yichan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ typedef struct s_data
 	int		mealtarget;
 	long	creation_time;
 	sem_t	*fork;
-	// sem_t	*lmeal_rec;
 	sem_t	*print_sem;
 }	t_data;
 
@@ -68,7 +67,7 @@ int		philo_checker(t_philo *phls);
 void	sem_opener(t_data *data);
 void	sem_closer(t_data *data, t_philo *phls);
 
-void	*life_checker(void *phls);
+void	*life_checker(void *phls_void);
 int		satiety_checker(t_philo *phls);
 
 sem_t	*create_sem(sem_t *sem, const char *name, int count);

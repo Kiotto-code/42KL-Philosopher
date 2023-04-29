@@ -6,7 +6,7 @@
 /*   By: yichan <yichan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 19:11:58 by yichan            #+#    #+#             */
-/*   Updated: 2023/04/23 21:47:33 by yichan           ###   ########.fr       */
+/*   Updated: 2023/04/29 00:54:55 by yichan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,12 +177,13 @@ int	philosophers(t_data *data)
 		return (1);
 	if (waitpid(-1, NULL, 0) == -1)
 		return (1);
-	while (it < data->num_phls)
-	{
-		// kill(phls[it].pid, SIGKILL);
-		kill(phls[it].pid, SIGKILL);
-		it++;
-	}
+	kill(-1, SIGKILL);
+	// while (it < data->num_phls)
+	// {
+	// 	// kill(phls[it].pid, SIGKILL);
+	// 	kill(phls[it].pid, SIGKILL);
+	// 	it++;
+	// }
 	sem_closer(data, phls);
 	free(phls);
 	return (0);

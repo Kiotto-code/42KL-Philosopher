@@ -6,7 +6,7 @@
 /*   By: yichan <yichan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 19:11:48 by yichan            #+#    #+#             */
-/*   Updated: 2023/04/23 21:44:29 by yichan           ###   ########.fr       */
+/*   Updated: 2023/04/29 01:01:33 by yichan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ void	phls_life(t_philo	*phls)
 	printf("phls->lmeal_rec = %p\n", phls->lmeal_rec);
 	// if (phls->lmeal_rec == SEM_FAILED)
 	// 	exit (1);
+	printf("checker:\n");
 	sem_wait(phls->lmeal_rec);
 	phls->last_meal = get_time();
 	sem_post(phls->lmeal_rec);
