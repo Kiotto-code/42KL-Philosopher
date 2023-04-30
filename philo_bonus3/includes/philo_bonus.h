@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.h                                            :+:      :+:    :+:   */
+/*   philo_bonus.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yichan <yichan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHILO_H
-# define PHILO_H
+#ifndef PHILO_BONUS_H
+# define PHILO_BONUS_H
 
 # include <unistd.h>
 # include <stdio.h>
@@ -33,8 +33,6 @@
 
 typedef struct s_data
 {
-	pid_t			*num_pid;
-	stuct s_philo	*philo;
 	int				num_phls;
 	int				tm_die;
 	int				tm_eat;
@@ -42,22 +40,31 @@ typedef struct s_data
 	int				mealtarget;
 	long			creation_time;
 	sem_t			*fork;
-	sem_t			*print_sem;
+	sem_t			*sem_log;
+	sem_t			*sem_end;
+	pid_t			*num_pid;
+	struct s_philo	*philo;
+	// sem_t			*print_sem;
 }	t_data;
 
 typedef struct s_philo
 {
 	t_data	*data;
-	pid_t	pid;
+	t_data	*record;
+	// pid_t	pid;
 	int		id;
-	int		num_meals;
-	int		satiety;
-	long	last_meal;
+	int		num_meals;//meals eaten
 	sem_t	*lmeal_rec;
+	long	last_meal;
+	// int		satiety;
 }	t_philo;
 
 // i
 
 sem_t	*create_sem(const char *name, int count, uint32_t mode, int value);
+int		philo_create_and_start(t_data *record);
+void	pl_philoinit(t_data *record);
+void	pl_philorun(unsigned int i, t_data *record);
+
 
 #endif

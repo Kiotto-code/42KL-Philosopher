@@ -6,11 +6,11 @@
 /*   By: yichan <yichan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 18:35:15 by yichan            #+#    #+#             */
-/*   Updated: 2023/04/27 19:09:00 by yichan           ###   ########.fr       */
+/*   Updated: 2023/04/30 19:01:04 by yichan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "philo_bonus.h"
 
 int	check_digit(char*av)
 {

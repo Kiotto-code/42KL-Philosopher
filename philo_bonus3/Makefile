@@ -21,7 +21,7 @@ INCLUDES	= ./includes
 SRC_PATH	= ./srcs
 OBJ_PATH	= ./obj
 
-SRCS	= $(wildcard ./*/pl_*.c)
+SRCS	= $(wildcard ./*/*.c)
 # SRCS	= $(wildcard $(SRC_PATH)/*.c)
 # SRCS	= $(shell find $(SRC_PATH) -name "*.c")
 # OBJS	= ${SRCS:./srcs/%.c=${OBJ_PATH}/%.o}

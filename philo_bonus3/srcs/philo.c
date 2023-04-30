@@ -6,12 +6,12 @@
 /*   By: yichan <yichan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 18:26:43 by yichan            #+#    #+#             */
-/*   Updated: 2023/04/29 21:41:52 by yichan           ###   ########.fr       */
+/*   Updated: 2023/05/01 00:26:46 by yichan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
-#include "../includes/philo.h"
+#include "philo_bonus.h"
 
 /**
  * @brief Create a sem object
@@ -30,21 +30,29 @@
 
 int	philo_create_and_start(t_data *record)
 {
-	record->str_pid = malloc(sizeof(pid_t) * record->member);
-	record->str_philo = malloc(sizeof(t_philo) * record->member);
+	record->num_pid = malloc(sizeof(pid_t) * record->num_phls);
+	record->philo = malloc(sizeof(t_philo) * record->num_phls);
 	// philo_iter(piter_init_philo, record);
-	pl_philoinit
+	pl_philoinit(record);
 	// philo_iter(piter_init_sim, record);
-	pl_philorun
+	pl_philorun(record);
 	philo_sim_status(record);
 	// philo_iter(piter_clean_philo, record);
 	waitpid(-1, NULL, 0);
-	semaphore_report(sem_close, record->forks);
+	semaphore_report(sem_close, record->fork);
 	semaphore_report(sem_close, record->sem_log);
 	semaphore_report(sem_close, record->sem_end);
-	free(record->str_pid);
-	free(record->str_philo);
+	free(record->num_pid);
+	free(record->philo);
 }
+
+//		if O_CREAT is specified in oflag, then the
+//		semaphore is created if it does not already exist.  The owner
+//		(user ID) of the semaphore is set to the effective user ID of the
+//		calling process.  The group ownership (group ID) is set to the
+//		effective group ID of the calling process.  If both O_CREAT and
+//		O_EXCL are specified in oflag, then an error is returned if a
+//		semaphore with the given name already exists.
 
 sem_t	*create_sem(const char *name, int count, uint32_t mode, int value)
 {
@@ -53,7 +61,7 @@ sem_t	*create_sem(const char *name, int count, uint32_t mode, int value)
 	sem_unlink(name);
 	res = sem_open(name, O_CREAT, mode, value);
 	if (res == SEM_FAILED)
-		return (SEM_FAILED);
+		return (res);
 	sem_unlink(name);
 	return (res);
 }

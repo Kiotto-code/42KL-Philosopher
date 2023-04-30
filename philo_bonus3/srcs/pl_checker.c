@@ -1,19 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   err_print.c                                        :+:      :+:    :+:   */
+/*   pl_checker.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yichan <yichan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/27 19:04:15 by yichan            #+#    #+#             */
-/*   Updated: 2023/04/30 19:01:04 by yichan           ###   ########.fr       */
+/*   Created: 2023/05/01 01:47:16 by yichan            #+#    #+#             */
+/*   Updated: 2023/05/01 01:56:47 by yichan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
-int	err_print(char *str, int status)
+void	*pl_checker(void *arg)
 {
-	printf("%s\n", str);
-	return (status);
+	t_philo	*philo;
+
+	philo = arg;
+	while ((pl_time() - philo->last_meal) < philo->data->tm_die)
+		usleep(500 / 2);
+	philo_log(philo, DEATH);
+	exit(1);
+	return (NULL);
 }

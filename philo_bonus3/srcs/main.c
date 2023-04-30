@@ -6,11 +6,11 @@
 /*   By: yichan <yichan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 17:58:53 by yichan            #+#    #+#             */
-/*   Updated: 2023/04/27 18:26:21 by yichan           ###   ########.fr       */
+/*   Updated: 2023/04/30 19:01:04 by yichan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "philo_bonus.h"
 
 int	main(int argc, char **argv)
 {

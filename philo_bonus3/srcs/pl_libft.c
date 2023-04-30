@@ -6,11 +6,11 @@
 /*   By: yichan <yichan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 18:59:59 by yichan            #+#    #+#             */
-/*   Updated: 2023/04/27 19:12:08 by yichan           ###   ########.fr       */
+/*   Updated: 2023/04/30 19:01:04 by yichan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "philo_bonus.h"
 
 void	*ft_memset(void *s, int c, size_t n)
 {
