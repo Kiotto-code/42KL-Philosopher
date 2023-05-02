@@ -6,7 +6,7 @@
 /*   By: yichan <yichan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 18:05:19 by yichan            #+#    #+#             */
-/*   Updated: 2023/05/02 17:57:53 by yichan           ###   ########.fr       */
+/*   Updated: 2023/05/03 04:05:38 by yichan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,12 @@ char	*pl_semname(const char *str, int id)
 	return (res);
 }
 
-void	pl_philorun(unsigned int i, t_data *record)
+void	pl_philorun(t_data *record)
 {
 	int		i;
 
 	i = -1;
-	while (++i < record->philo)
+	while (++i < record->num_phls)
 	{
 		record->num_pid[i] = fork();
 		if (record->num_pid[i] == -1)
@@ -49,7 +49,7 @@ void	pl_philoinit(t_data *record)
 	
 	// temp = 0;
 	i = -1;
-	while (++i < record->philo)
+	while (++i < record->num_phls)
 	{
 		// temp = record.philo;
 		phl_create = ft_calloc(sizeof(t_philo));

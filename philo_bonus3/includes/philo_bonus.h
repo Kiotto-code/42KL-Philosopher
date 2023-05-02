@@ -72,7 +72,7 @@ int		philosopher(char **argv);
 sem_t	*create_sem(const char *name, int count, uint32_t mode, int value);
 int		philo_create_and_start(t_data *record);
 void	pl_philoinit(t_data *record);
-void	pl_philorun(unsigned int i, t_data *record);
+void	pl_philorun(t_data *record);
 void	*pl_checker(void *arg);
 void	philo_simulation(t_philo *philo);
 void	semaphore_report(sem_t sem_func(sem_t *), sem_t *sem);
@@ -80,5 +80,8 @@ long	pl_time(void);
 void	pl_lmeal_time(t_philo *philo);
 void	philo_log(t_philo *philo, const char *action);
 void	philo_do(t_philo *philo, int time);
+int		philo_check(char **av);
+int		err_print(char *str, int status);
+long	ft_atoi(const char *str);
 
 #endif
