@@ -6,7 +6,7 @@
 /*   By: yichan <yichan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 18:26:43 by yichan            #+#    #+#             */
-/*   Updated: 2023/05/01 00:26:46 by yichan           ###   ########.fr       */
+/*   Updated: 2023/05/02 15:50:14 by yichan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,39 +46,21 @@ int	philo_create_and_start(t_data *record)
 	free(record->philo);
 }
 
-//		if O_CREAT is specified in oflag, then the
-//		semaphore is created if it does not already exist.  The owner
-//		(user ID) of the semaphore is set to the effective user ID of the
-//		calling process.  The group ownership (group ID) is set to the
-//		effective group ID of the calling process.  If both O_CREAT and
-//		O_EXCL are specified in oflag, then an error is returned if a
-//		semaphore with the given name already exists.
-
-sem_t	*create_sem(const char *name, int count, uint32_t mode, int value)
-{
-	sem_t	*res;
-
-	sem_unlink(name);
-	res = sem_open(name, O_CREAT, mode, value);
-	if (res == SEM_FAILED)
-		return (res);
-	sem_unlink(name);
-	return (res);
-}
-
 void	record_init(t_data *record, char **argv)
 {
-	record->sem_end = create_sem("SEM_END", O_CREAT, 0644, 0);
-	record->sem_log = create_sem("SEM_LOG", O_CREAT, 0644, 1);
-	record->fork = create_sem("SEM_FORKS", O_CREAT, 0644, record->num_phls);
 	record->num_phls = ft_atoi(argv[1]);
 	record->tm_die = ft_atoi(argv[2]);
 	record->tm_eat = ft_atoi(argv[3]);
 	record->tm_sleep = ft_atoi(argv[4]);
 	if (argv[5])
-		record->num_eat = ft_atoi(argv[5]);
+		record->mealtarget = ft_atoi(argv[5]);
 	else
-		record->num_eat = -1;
+		record->mealtarget = -1;
+	// gettimeofday(record->creation_time, NULL);
+	record->creation_time = pl_time();
+	record->sem_end = create_sem("SEM_END", O_CREAT, 0644, 0);
+	record->sem_log = create_sem("SEM_LOG", O_CREAT, 0644, 1);
+	record->fork = create_sem("SEM_FORKS", O_CREAT, 0644, record->num_phls);
 }
 
 int	philosopher(char **argv)
@@ -90,7 +72,7 @@ int	philosopher(char **argv)
 	record_init(&record, argv);
 	if (record.sem_end == SEM_FAILED
 		|| record.sem_log == SEM_FAILED
-		|| record.forks == SEM_FAILED)
+		|| record.fork == SEM_FAILED)
 		return (1);
 	philo_create_and_start(&record);
 	return (0);

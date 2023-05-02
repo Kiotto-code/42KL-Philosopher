@@ -6,7 +6,7 @@
 /*   By: yichan <yichan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 18:05:19 by yichan            #+#    #+#             */
-/*   Updated: 2023/04/30 23:18:08 by yichan           ###   ########.fr       */
+/*   Updated: 2023/05/02 17:57:53 by yichan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ char	*pl_semname(const char *str, int id)
 
 	temp = ft_itoa(id);
 	res = ft_strjoin(str, temp);
+	// free(str);
 	free(temp);
 	return (res);
 }

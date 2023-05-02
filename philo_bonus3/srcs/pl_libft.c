@@ -6,7 +6,7 @@
 /*   By: yichan <yichan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 18:59:59 by yichan            #+#    #+#             */
-/*   Updated: 2023/04/30 19:01:04 by yichan           ###   ########.fr       */
+/*   Updated: 2023/05/02 15:52:59 by yichan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,13 @@ int	ft_isdigit(int c)
 	return (0);
 }
 
-long	pl_time(void)
-{
-	struct timeval	time;
+// long	pl_time(void)
+// {
+// 	struct timeval	time;
 
-	gettimeofday(&time, NULL);
-	return (time.tv_sec * 1000 + time.tv_usec / 1000);
-}
+// 	gettimeofday(&time, NULL);
+// 	return (time.tv_sec * 1000 + time.tv_usec / 1000);
+// }
 
 long	ft_atoi(const char *str)
 {

@@ -6,31 +6,48 @@
 /*   By: yichan <yichan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 00:29:13 by yichan            #+#    #+#             */
-/*   Updated: 2023/05/01 01:53:51 by yichan           ###   ########.fr       */
+/*   Updated: 2023/05/03 01:57:36 by yichan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
-long	pl_timeinterval(long start_time)
-{
-	return (pl_time() - start_time);
-}
+//time_get
+// long	pl_timeinterval(long current_time, long start_time)
+// {
+// 	return (current_time - start_time);
+// }
 
-long	pl_time(void)
-{
-	struct timeval	time;
+// long	pl_time(void)
+// {
+// 	struct timeval	time;
 
-	gettimeofday(&time, NULL);
-	return (time.tv_sec * 1000 + time.tv_usec / 1000);
-}
+// 	gettimeofday(&time, NULL);
+// 	return (time.tv_sec * 1000 + time.tv_usec / 1000);
+// }
 
-//set last meal time
-void	pl_lmeal_time(t_philo *philo)
+// //set last meal time
+// void	pl_lmeal_time(t_philo *philo)
+// {
+// 	// sem_wait(philo->lmeal_rec);
+// 	semaphore_report(sem_wait, philo->lmeal_rec);
+// 	philo->last_meal = pl_time();
+// 	// sem_post(philo->lmeal_rec);
+// 	semaphore_report(sem_post, philo->lmeal_rec);
+// }
+static void	philo_eat(t_philo *philo)
 {
-	sem_wait(philo->lmeal_rec);
-	philo->last_meal = pl_time();
-	sem_post(philo->lmeal_rec);
+	semaphore_report(sem_wait, philo->data->fork);
+	philo_log(philo, GETFORK);
+	semaphore_report(sem_wait, philo->data->fork);
+	philo_log(philo, GETFORK);
+	time_set(&philo->last_meal);
+	philo_log(philo, EAT);
+	philo_do(philo, philo->data->tm_eat);
+	if (philo->data->mealtarget != -1)
+		philo->num_meals++;
+	semaphore_report(sem_post, philo->data->fork);
+	semaphore_report(sem_post, philo->data->fork);
 }
 
 void	philo_simulation(t_philo *philo)
@@ -38,5 +55,21 @@ void	philo_simulation(t_philo *philo)
 	pthread_t checker;
 
 	pl_lmeal_time(&philo);
-	pthread_create(&checker, NULL, &pl_checker, philo);
+	pthread_create(&checker, NULL, pl_checker, philo);
+	pthread_detach(checker);
+	while (1)
+	{
+		philo_eat(philo);
+		philo_log(philo, SLEEP);
+		// philo_sleep(philo);
+		if (philo->last_meal >= philo->data->mealtarget)
+		{
+			break;
+		}
+		philo_do(philo, philo->data->tm_sleep);
+		philo_log(philo, THINK);
+		// philo_think(philo);
+	}
+	semaphore_report(sem_post, philo->data->sem_end);
+	exit(0);
 }
