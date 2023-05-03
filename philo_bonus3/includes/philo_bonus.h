@@ -56,7 +56,7 @@ typedef struct s_data
 
 typedef struct s_philo
 {
-	t_data	*data;
+	struct s_data	*data;
 	// t_data	*record;
 	// pid_t	pid;
 	int		id; //id
@@ -70,7 +70,7 @@ typedef struct s_philo
 
 int		philosopher(char **argv);
 sem_t	*create_sem(const char *name, int count, uint32_t mode, int value);
-int		philo_create_and_start(t_data *record);
+void	philo_create_and_start(t_data *record);
 void	pl_philoinit(t_data *record);
 void	pl_philorun(t_data *record);
 void	*pl_checker(void *arg);
@@ -83,5 +83,10 @@ void	philo_do(t_philo *philo, int time);
 int		philo_check(char **av);
 int		err_print(char *str, int status);
 long	ft_atoi(const char *str);
+void	philo_sim_status(t_data *record);
+char	*ft_itoa(int n);
+char	*ft_strjoin(char const *s1, char const *s2);
+void	*ft_calloc(size_t count);
+int		ft_strcmp(const char *s1, const char *s2);
 
 #endif

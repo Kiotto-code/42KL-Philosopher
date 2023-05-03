@@ -6,11 +6,21 @@
 /*   By: yichan <yichan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 18:59:59 by yichan            #+#    #+#             */
-/*   Updated: 2023/05/02 15:52:59 by yichan           ###   ########.fr       */
+/*   Updated: 2023/05/03 04:22:45 by yichan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
+
+int	ft_strcmp(const char *s1, const char *s2)
+{
+	size_t	it;
+
+	it = 0;
+	while (s1[it] && s2[it] && (s1[it] == s2[it]))
+		it++;
+	return ((unsigned char)s1[it] - (unsigned char)s2[it]);
+}
 
 void	*ft_memset(void *s, int c, size_t n)
 {

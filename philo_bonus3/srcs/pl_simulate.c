@@ -6,7 +6,7 @@
 /*   By: yichan <yichan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 00:29:13 by yichan            #+#    #+#             */
-/*   Updated: 2023/05/03 01:57:36 by yichan           ###   ########.fr       */
+/*   Updated: 2023/05/04 02:57:56 by yichan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static void	philo_eat(t_philo *philo)
 	philo_log(philo, GETFORK);
 	semaphore_report(sem_wait, philo->data->fork);
 	philo_log(philo, GETFORK);
-	time_set(&philo->last_meal);
+	pl_lmeal_time(philo);
 	philo_log(philo, EAT);
 	philo_do(philo, philo->data->tm_eat);
 	if (philo->data->mealtarget != -1)
@@ -54,7 +54,7 @@ void	philo_simulation(t_philo *philo)
 {
 	pthread_t checker;
 
-	pl_lmeal_time(&philo);
+	pl_lmeal_time(philo);
 	pthread_create(&checker, NULL, pl_checker, philo);
 	pthread_detach(checker);
 	while (1)
@@ -62,7 +62,7 @@ void	philo_simulation(t_philo *philo)
 		philo_eat(philo);
 		philo_log(philo, SLEEP);
 		// philo_sleep(philo);
-		if (philo->last_meal >= philo->data->mealtarget)
+		if (philo->num_meals >= philo->data->mealtarget)
 		{
 			break;
 		}
