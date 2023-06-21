@@ -6,7 +6,7 @@
 /*   By: yichan <yichan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 01:47:16 by yichan            #+#    #+#             */
-/*   Updated: 2023/05/04 05:21:50 by yichan           ###   ########.fr       */
+/*   Updated: 2023/06/04 23:19:20 by yichan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ long	lmeal_interv(t_philo *philo)
 	semaphore_report(sem_wait, philo->lmeal_rec);
 	interval = pl_time() - philo->last_meal;
 	semaphore_report(sem_post, philo->lmeal_rec);
-	return (pl_time() - philo->last_meal);
+	return (interval);
 }
 
 
