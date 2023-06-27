@@ -10,10 +10,10 @@
 #                                                                              #
 # **************************************************************************** #
  
-NAME    =   philo
-CC		=	gcc
+NAME    =   philo_bonus
+CC		=	cc
 RM		=	rm -rf
-CFLAGS	=	-Wall -Werror -Wextra -g3
+CFLAGS	=	-Wall -Werror -Wextra
 # CFLAGS	+=	-pthread
 # CFLAGS	+=	-fsanitize=thread
 # CFLAGS	+=	-fsanitize=address
@@ -21,25 +21,25 @@ INCLUDES	= ./includes
 SRC_PATH	= ./srcs
 OBJ_PATH	= ./obj
 
-SRCS	= $(wildcard ./*/*.c)
+# SRCS	= $(wildcard ./*/*.c)
 # SRCS	= $(wildcard $(SRC_PATH)/*.c)
-# SRCS	= $(shell find $(SRC_PATH) -name "*.c")
+SRCS	= $(shell find $(SRC_PATH) -name "*.c")
 # OBJS	= ${SRCS:./srcs/%.c=${OBJ_PATH}/%.o}
 # OBJS	= $(patsubst %.c, $(OBJ_PATH)/%.o, $(notdir $(SRCS)))
 OBJS 	= $(patsubst $(SRC_PATH)/%.c, $(OBJ_PATH)/%.o, $(SRCS))
-# OBJS 	= $(SRCS:.c=.o)
+# OBJS 	= $(SRCS:.c =.o)
 
-${}
+# ${}xscx
 
 
 all				:	$(NAME)
 
 $(NAME)			:	$(OBJS)
-					$(CC) $(CFLAGS) $^ -I$(INCLUDES) -o $@
+					$(CC) -fsanitize=thread $^ -I$(INCLUDES) -o $@
 
 # $(OBJ_PATH)/%.o	:	$(SRC_PATH)/%.c* $(INCLUDES)/*.h ./Makefile | $(OBJ_PATH)
 # 					$(CC) $(CFLAGS) -c -I$(INCLUDES) $< -o $@
-$(OBJ_PATH)/%.o	:	$(SRC_PATH)/%.c* $(INCLUDES)/*.h ./Makefile
+$(OBJ_PATH)/%.o	:	$(SRC_PATH)/%.c $(INCLUDES) Makefile
 					mkdir -p $(@D)
 					$(CC) $(CFLAGS) -c -I$(INCLUDES) $< -o $@
 
@@ -56,4 +56,4 @@ fclean			:	clean
 
 re				:	fclean all
 
-.PHONY			: all clean fclean re
+.PHONY			:	all clean fclean re
