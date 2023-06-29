@@ -6,7 +6,7 @@
 /*   By: yichan <yichan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 18:35:15 by yichan            #+#    #+#             */
-/*   Updated: 2023/05/04 01:43:58 by yichan           ###   ########.fr       */
+/*   Updated: 2023/06/29 15:17:04 by yichan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	check_digit(char*av)
 
 static int	philo_criteria(char *str)
 {
-	int nbr;
+	int	nbr;
 
 	nbr = ft_atoi(str);
 	if (nbr == 0)

@@ -6,7 +6,7 @@
 /*   By: yichan <yichan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 15:47:55 by yichan            #+#    #+#             */
-/*   Updated: 2023/05/04 05:40:46 by yichan           ###   ########.fr       */
+/*   Updated: 2023/06/29 15:24:42 by yichan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ sem_t	*create_sem(const char *name, int count, uint32_t mode, int value)
 
 	(void)count;
 	sem_unlink(name);
-	// res = sem_open(name, O_CREAT | O_EXCL, mode, value);
 	res = sem_open(name, O_CREAT | O_EXCL, mode, value);
 	if (res == SEM_FAILED)
 		printf("Failed to open sem: %s\n", name);
@@ -65,19 +64,13 @@ long	pl_time(void)
 	struct timeval	time;
 
 	gettimeofday(&time, NULL);
-	// printf("pl_time: %ld\n", time.tv_sec * 1000 + time.tv_usec / 1000);
 	return (time.tv_sec * 1000 + time.tv_usec / 1000);
 }
 
 //set last meal time
 void	pl_lmeal_time(t_philo *philo)
 {
-	// sem_wait(philo->lmeal_rec);
-	// printf("philo?? id: %d\n", philo->id);
-	// printf("philo->lmeal_rec: %d\n", *philo->lmeal_rec);
-	// printf("check\n");
 	semaphore_report(sem_wait, philo->lmeal_rec);
 	philo->last_meal = pl_time();
-	// sem_post(philo->lmeal_rec);
 	semaphore_report(sem_post, philo->lmeal_rec);
 }

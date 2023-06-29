@@ -6,7 +6,7 @@
 /*   By: yichan <yichan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 01:47:16 by yichan            #+#    #+#             */
-/*   Updated: 2023/06/04 23:19:20 by yichan           ###   ########.fr       */
+/*   Updated: 2023/06/29 15:23:51 by yichan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,10 @@
 
 void	philo_sim_status(t_data *record)
 {
-	int  i;
+	int	i;
 
 	waitpid(-1, NULL, 0);
 	i = -1;
-	// philo_iter(piter_badend, record);
 	while (++i < record->num_phls)
 	{
 		if (kill(record->num_pid[i], SIGINT) != -1)
@@ -42,21 +41,13 @@ long	lmeal_interv(t_philo *philo)
 	return (interval);
 }
 
-
 void	*pl_checker(void *arg)
 {
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	// printf("%d\n",philo->data->tm_die);
-	// printf("%ld\n",philo->last_meal);
-	// printf("%p\n",philo->data);
-	// semaphore_report(sem_wait, philo->lmeal_rec);
-	// printf("last_meaL: %ld\n",pl_time() - philo->last_meal);
-	// printf("%d\n",philo->data->tm_die);
 	while (lmeal_interv(philo) < philo->data->tm_die)
 		usleep(500 / 2);
-	// semaphore_report(sem_post, philo->lmeal_rec);
 	philo_log(philo, DEAD);
 	exit(1);
 	return (NULL);

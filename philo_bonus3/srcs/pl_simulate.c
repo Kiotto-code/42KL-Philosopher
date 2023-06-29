@@ -6,7 +6,7 @@
 /*   By: yichan <yichan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 00:29:13 by yichan            #+#    #+#             */
-/*   Updated: 2023/05/04 02:57:56 by yichan           ###   ########.fr       */
+/*   Updated: 2023/06/29 15:24:06 by yichan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static void	philo_eat(t_philo *philo)
 
 void	philo_simulation(t_philo *philo)
 {
-	pthread_t checker;
+	pthread_t	checker;
 
 	pl_lmeal_time(philo);
 	pthread_create(&checker, NULL, pl_checker, philo);
@@ -61,14 +61,12 @@ void	philo_simulation(t_philo *philo)
 	{
 		philo_eat(philo);
 		philo_log(philo, SLEEP);
-		// philo_sleep(philo);
 		if (philo->num_meals >= philo->data->mealtarget)
 		{
-			break;
+			break ;
 		}
 		philo_do(philo, philo->data->tm_sleep);
 		philo_log(philo, THINK);
-		// philo_think(philo);
 	}
 	semaphore_report(sem_post, philo->data->sem_end);
 	exit(0);

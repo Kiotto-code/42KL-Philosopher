@@ -50,22 +50,16 @@ typedef struct s_data
 	sem_t			*sem_end;
 	pid_t			*num_pid;
 	struct s_philo	*philo;
-	// sem_t			*print_sem;
 }	t_data;
 
 typedef struct s_philo
 {
 	struct s_data	*data;
-	// t_data	*record;
-	// pid_t	pid;
-	int		id; //id
-	int		num_meals;//meals eaten
-	long	last_meal;
-	sem_t	*lmeal_rec;//lmeal_rec//sem
-	// int		satiety;
+	int				id;
+	int				num_meals;
+	long			last_meal;
+	sem_t			*lmeal_rec;
 }	t_philo;
-
-// i
 
 int		philosopher(char **argv);
 sem_t	*create_sem(const char *name, int count, uint32_t mode, int value);
