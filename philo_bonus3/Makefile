@@ -15,15 +15,15 @@ CC		=	cc
 RM		=	rm -rf
 CFLAGS	=	-Wall -Werror -Wextra
 # CFLAGS	+=	-pthread
-# CFLAGS	+=	-fsanitize=thread
+SANT	=	#-fsanitize=thread
 # CFLAGS	+=	-fsanitize=address
 INCLUDES	= ./includes
 SRC_PATH	= ./srcs
 OBJ_PATH	= ./obj
 
-# SRCS	= $(wildcard ./*/*.c)
+SRCS	= $(wildcard ./*/*.c)
 # SRCS	= $(wildcard $(SRC_PATH)/*.c)
-SRCS	= $(shell find $(SRC_PATH) -name "*.c")
+# SRCS	= $(shell find $(SRC_PATH) -name "*.c")
 # OBJS	= ${SRCS:./srcs/%.c=${OBJ_PATH}/%.o}
 # OBJS	= $(patsubst %.c, $(OBJ_PATH)/%.o, $(notdir $(SRCS)))
 OBJS 	= $(patsubst $(SRC_PATH)/%.c, $(OBJ_PATH)/%.o, $(SRCS))
@@ -35,7 +35,7 @@ OBJS 	= $(patsubst $(SRC_PATH)/%.c, $(OBJ_PATH)/%.o, $(SRCS))
 all				:	$(NAME)
 
 $(NAME)			:	$(OBJS)
-					$(CC) -fsanitize=thread $^ -I$(INCLUDES) -o $@
+					$(CC) $(SANT) $^ -I$(INCLUDES) -o $@
 
 # $(OBJ_PATH)/%.o	:	$(SRC_PATH)/%.c* $(INCLUDES)/*.h ./Makefile | $(OBJ_PATH)
 # 					$(CC) $(CFLAGS) -c -I$(INCLUDES) $< -o $@
