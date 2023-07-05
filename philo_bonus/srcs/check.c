@@ -6,7 +6,7 @@
 /*   By: yichan <yichan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 18:35:15 by yichan            #+#    #+#             */
-/*   Updated: 2023/07/05 15:22:03 by yichan           ###   ########.fr       */
+/*   Updated: 2023/07/05 15:27:46 by yichan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	check_digit(char*av)
 	while (*av)
 	{
 		printf("checking av num: %c\n", *av);
-		if (!(*av >= '0' && *av <= '9'))
+		if (!(*av >= '0' && *av <= '9' || *av == '-'))
 			return (0);
 		av++;
 	}
