@@ -22,7 +22,7 @@ void	*pl_deadcheck(t_thread *pl)
 		pl_call_end(pl->record->plptr);
 		pl_show_run(current - pl->starttime, \
 					pl, DIED, pl->record->printer);
-		return ((void *) 1);
+		return ((void *)1);
 	}
 	return (NULL);
 }
@@ -41,6 +41,7 @@ int	pl_check_full(t_thread *pl, t_book *record)
 /**
  * @brief the thread waits for the mutex to become available.
  * 			Format: void *(*start_routine)(void *),
+ * 		pl->temp to record the current time to avoid delat
  *
  * @param pl
  * @return void*

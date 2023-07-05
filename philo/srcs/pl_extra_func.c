@@ -6,12 +6,17 @@
 /*   By: yichan <yichan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 22:16:52 by yichan            #+#    #+#             */
-/*   Updated: 2023/06/24 23:19:26 by yichan           ###   ########.fr       */
+/*   Updated: 2023/07/05 12:47:33 by yichan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
+/**
+ * @brief update all the the philo dead status,
+ * 
+ * @param pl 
+ */
 void	pl_call_end(t_thread *pl)
 {
 	int	i;

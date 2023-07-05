@@ -35,7 +35,7 @@ $(NAME)			:	$(OBJS)
 					$(CC) $(CFLAGS) $^ -I$(INCLUDES) -o $@
 
 $(OBJ_PATH)/%.o	:	$(SRC_PATH)/%.c* $(INCLUDES)/*.h ./Makefile | $(OBJ_PATH)
-					$(CC) $(CFLAGS) -c -I$(INCLUDES) $< -o $@
+					$(CC) -c -I$(INCLUDES) $< -o $@
 
 $(OBJ_PATH)		:
 					mkdir -p $(OBJ_PATH)

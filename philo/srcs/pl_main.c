@@ -74,6 +74,13 @@ int	check_argument(int ac, char **av, t_book *record)
 	return (0);
 }
 
+/**
+ * @brief check arg return 1 if argument not fulfill ; 0 if fulfill
+ * 
+ * @param ac 
+ * @param av 
+ * @return int 
+ */
 int	main(int ac, char *av[])
 {
 	t_book		record;
