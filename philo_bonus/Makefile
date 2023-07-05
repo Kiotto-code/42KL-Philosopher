@@ -16,7 +16,7 @@ RM		=	rm -rf
 CFLAGS	=	-Wall -Werror -Wextra
 # CFLAGS	+=	-pthread
 SANT	=	#-fsanitize=thread
-CFLAGS	+=	-fsanitize=address
+# CFLAGS	+=	-fsanitize=address
 INCLUDES	= ./includes
 SRC_PATH	= ./srcs
 OBJ_PATH	= ./obj
