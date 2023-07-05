@@ -6,7 +6,7 @@
 /*   By: yichan <yichan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 18:26:43 by yichan            #+#    #+#             */
-/*   Updated: 2023/06/29 15:20:02 by yichan           ###   ########.fr       */
+/*   Updated: 2023/07/05 15:03:54 by yichan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	philosopher(char **argv)
 {
 	t_data	record;
 
-	if (!philo_check(argv + 1))
+	if (philo_check(argv + 1) == 0)
 		return (1);
 	record_init(&record, argv);
 	if (record.sem_end == SEM_FAILED

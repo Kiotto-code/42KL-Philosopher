@@ -19,7 +19,7 @@ int	check_value(int n)
 	return (0);
 }
 
-int	check_digit(int ac, char**av)
+int	dheck_digit(int ac, char**av)
 {
 	int	i;
 

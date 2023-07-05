@@ -6,7 +6,7 @@
 /*   By: yichan <yichan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 18:35:15 by yichan            #+#    #+#             */
-/*   Updated: 2023/06/29 15:17:04 by yichan           ###   ########.fr       */
+/*   Updated: 2023/07/05 15:22:03 by yichan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ int	check_digit(char*av)
 {
 	while (*av)
 	{
-		if (*av <= '0' && *av >= '9')
+		printf("checking av num: %c\n", *av);
+		if (!(*av >= '0' && *av <= '9'))
 			return (0);
 		av++;
 	}
@@ -32,10 +33,10 @@ static int	philo_criteria(char *str)
 		return (err_print("number could not be 0\n", 0));
 	else if (*str == 0)
 		return (err_print("argument could not be empty\n", 0));
-	else if (nbr < 0)
-		return (err_print("number could not be negative\n", 0));
 	else if (check_digit(str) == 0)
 		return (err_print("argument could not be non-digit\n", 0));
+	else if (nbr < 0)
+		return (err_print("number could not be negative\n", 0));
 	else
 		return (1);
 }
@@ -49,7 +50,7 @@ int	philo_check(char **av)
 	i = -1;
 	while (av[++i] && i < 5 && status == 1)
 	{
-		status = philo_criteria(av[1]);
+		status &= philo_criteria(av[i]);
 	}
 	return (status);
 }
