@@ -5,68 +5,51 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: yichan <yichan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/13 19:11:41 by yichan            #+#    #+#             */
-/*   Updated: 2023/04/29 00:59:36 by yichan           ###   ########.fr       */
+/*   Created: 2023/04/27 18:35:15 by yichan            #+#    #+#             */
+/*   Updated: 2023/06/29 15:17:04 by yichan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/philo_bonus.h"
+#include "philo_bonus.h"
 
-int	satiety_checker(t_philo *phls)
+int	check_digit(char*av)
 {
-	int	it;
-	int	full_satiety;
-
-	it = 0;
-	full_satiety = 0;
-	while (it < phls->data->num_phls)
+	while (*av)
 	{
-		full_satiety += phls->satiety;
-		it++;
+		if (*av <= '0' && *av >= '9')
+			return (0);
+		av++;
 	}
-	if (full_satiety >= phls->data->num_phls)
+	return (1);
+}
+
+static int	philo_criteria(char *str)
+{
+	int	nbr;
+
+	nbr = ft_atoi(str);
+	if (nbr == 0)
+		return (err_print("number could not be 0\n", 0));
+	else if (*str == 0)
+		return (err_print("argument could not be empty\n", 0));
+	else if (nbr < 0)
+		return (err_print("number could not be negative\n", 0));
+	else if (check_digit(str) == 0)
+		return (err_print("argument could not be non-digit\n", 0));
+	else
 		return (1);
-	return (0);
 }
 
-void	*life_checker(void *phls_void)
+int	philo_check(char **av)
 {
-	int		it;
-	int		tmp;
-	t_philo	*phls;
+	int	i;
+	int	status;
 
-	it = 0;
-	phls = (t_philo *)phls_void;
-	while (1)
+	status = 1;
+	i = -1;
+	while (av[++i] && i < 5 && status == 1)
 	{
-		if (phls->data->mealtarget > 0)
-		{
-			if (satiety_checker(phls) == 1)
-				exit (0);
-		}
-		tmp = get_time();
-		sem_wait(phls->lmeal_rec);
-		if ((tmp - phls->last_meal) > phls->data->tm_die)
-		{
-			sem_post(phls->lmeal_rec);
-			phls_msg(DIED, tmp - phls->data->creation_time, \
-						phls->id, phls->data->print_sem);
-			exit (0);
-		}
-		sem_post(phls->lmeal_rec);
-		it++;
-		usleep(100);
+		status = philo_criteria(av[1]);
 	}
-	return (NULL);
-}
-
-int	philo_checker(t_philo *phls)
-{
-	pthread_t	checker;
-
-	if (pthread_create(&checker, NULL, life_checker, (void *)phls) != 0)
-		return (err_msg("PTHREAD_ERROR"));
-	if (pthread_detach(checker) != 0)
-		return (err_msg("PTHREAD_ERROR"));
-	return (0);
+	return (status);
 }

@@ -5,186 +5,74 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: yichan <yichan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/13 19:11:58 by yichan            #+#    #+#             */
-/*   Updated: 2023/04/29 00:54:55 by yichan           ###   ########.fr       */
+/*   Created: 2023/04/27 18:26:43 by yichan            #+#    #+#             */
+/*   Updated: 2023/06/29 15:20:02 by yichan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/philo_bonus.h"
+#include "philo_bonus.h"
 
-// void	sem_opener(t_data *data)
-// {
-// 	if (sem_unlink("print_sem") == -1)
-// 		exit(1);
-// 	if (sem_unlink("fork"))
-// 		exit(1);
-// 	sem_unlink("print_sem");
-// 	sem_unlink("fork");
-// 	data->print_sem = sem_open("print_sem", O_CREAT, 0644, 1);
-// 	data->fork = sem_open("fork", O_CREAT, 0644, data->num_phls);
-// 	if (data->print_sem == 0 || data->fork == 0)
-// 		exit(1);
-// }
-// void	create_sem(sem_t *sem, char *name, int count)
-// {
-// 	sem_unlink(name);
-// 	sem = sem_open(name, O_CREAT, 0644, count);
-// }
+/**
+ * @brief Create a sem object
+ * 	If you want to be sure you are creating a new (named)
+ * 	semaphore instead of opening an existing one 
+ * 	then unlinking the name before the sem_open()
+ * 	call makes that pretty likely.
+ * 
+ * Calling sem_unlink() after sem_open() is not strictly necessary,
+ * 	but it can be a good practice to ensure
+ * that the semaphore is properly cleaned up even if some process
+ * 	fails to call sem_close().
+ * 
+ * @param name 
+ * @param count 
+ * @param mode 
+ * @param value	: initial value of the semaphore
+ * @return sem_t* 
+ */
 
-// void	sem_opener(t_data *data)
-// {
-// 	sem_unlink("print_sem");
-// 	sem_unlink("fork");
-// 	// sem_unlink("lmeal_rec");
-// 	data->print_sem = sem_open("print_sem", O_CREAT, 0644, 1);
-// 	data->fork = sem_open("fork", O_CREAT, 0644, data->num_phls);
-// 	// data->fork = sem_open("lmeal_rec", O_CREAT, 0644, data->num_phls);
-// 	if (data->print_sem == 0 || data->fork == 0)
-// 		exit(1);
-// }
-void	sem_opener(t_data *data)
+void	philo_create_and_start(t_data *record)
 {
-	// sem_unlink("print_sem");
-	// sem_unlink("fork");
-	data->print_sem = create_sem(data->print_sem, "print_sem", 1);
-	data->fork = create_sem(data->fork, "fork", data->num_phls);
-	// sem_unlink("print_sem");
-	// sem_unlink("fork");
-	// sem_unlink("lmeal_rec");
-	// data->print_sem = sem_open("print_sem", O_CREAT, 0644, 1);
-	// data->fork = sem_open("fork", O_CREAT, 0644, data->num_phls);
-	// data->fork = sem_open("lmeal_rec", O_CREAT, 0644, data->num_phls);
-	if (data->print_sem == SEM_FAILED || data->fork == SEM_FAILED)
-		exit(1);
-	// printf("checking\n");
+	record->num_pid = malloc(sizeof(pid_t) * record->num_phls);
+	record->philo = malloc(sizeof(t_philo) * record->num_phls);
+	pl_philoinit(record);
+	pl_philorun(record);
+	philo_sim_status(record);
+	semaphore_report(sem_close, record->fork);
+	semaphore_report(sem_close, record->sem_log);
+	semaphore_report(sem_close, record->sem_end);
+	free(record->num_pid);
+	free(record->philo);
 }
 
-// void	sem_closer(t_data *data)
-// {
-// 	if (sem_unlink("print_sem") == -1)
-// 		exit(1);
-// 	if (sem_close(data->print_sem))
-// 		exit(1);
-// 	if (sem_unlink("fork"))
-// 		exit(1);
-// 	if (sem_close(data->fork))
-// 		exit(1);
-// }
-
-void	sem_closer(t_data *data, t_philo *phls)
+void	record_init(t_data *record, char **argv)
 {
-	int it;
-
-	it = -1;
-	if (sem_close(data->print_sem))
-		exit(1);
-	if (sem_unlink("print_sem") == -1)
-		exit(1);
-	if (sem_close(data->fork))
-		exit(1);
-	if (sem_unlink("fork"))
-		exit(1);
-	while (phls[++it].pid)
-	{
-		if (sem_close(phls[it].lmeal_rec))
-			exit(1);
-		if (sem_unlink("lmeal_rec"))
-			exit(1);
-	}
+	record->num_phls = ft_atoi(argv[1]);
+	record->tm_die = ft_atoi(argv[2]);
+	record->tm_eat = ft_atoi(argv[3]);
+	record->tm_sleep = ft_atoi(argv[4]);
+	if (argv[5])
+		record->mealtarget = ft_atoi(argv[5]);
+	else
+		record->mealtarget = -1;
+	record->creation_time = pl_time();
+	record->sem_end = create_sem("SEM_END", O_CREAT | O_EXCL, 0644, 0);
+	record->sem_log = create_sem("SEM_LOG", O_CREAT | O_EXCL, 0644, 1);
+	record->fork = create_sem("SEM_FORKS", O_CREAT | O_EXCL, 0644, \
+		record->num_phls);
 }
 
-// int	philo_create_and_start(t_philo *phls, t_data *data)
-// {
-// 	int	it;
-
-// 	data->creation_time = get_time();
-// 	it = 0;
-// 	while (it < data->num_phls)
-// 	{
-// 		phls[it].pid = fork();
-// 		if (phls[it].pid == -1)
-// 			return (err_msg("FORK_ERROR"));
-// 		if (phls[it].pid == 0)
-// 		{
-// 			phls[it].id = it + 1;
-// 			phls[it].data = data;
-// 			if (data->mealtarget > 0)
-// 			{
-// 				phls[it].num_meals = 0;
-// 				phls[it].satiety = 0;
-// 			}
-// 			phls_life((void *)&phls[it]);
-// 		}
-// 		it++;
-// 	}
-// 	return (0);
-// }
-void	setup_philo(t_philo *phls, t_data *data)
+int	philosopher(char **argv)
 {
-	int	it;
+	t_data	record;
 
-	it = -1;
-	while (++it < data->num_phls)
-	{
-		if (phls[it].pid == 0)
-		{
-			phls[it].id = it + 1;
-			// printf("phls->id: %d\n", phls->id);
-			phls[it].data = data;
-			if (data->mealtarget > 0)
-			{
-				phls[it].num_meals = 0;
-				phls[it].satiety = 0;
-			}
-		}
-		ph_lmeal_rec(&(phls[it]));
-	}
-}
-
-int	philo_create_and_start(t_philo *phls, t_data *data)
-{
-	int	it;
-
-	setup_philo(phls, data);
-	it = 0;
-	data->creation_time = get_time();
-	while (it < data->num_phls)
-	{
-		phls[it].pid = fork();
-		if (phls[it].pid == -1)
-			return (err_msg("FORK_ERROR"));
-		if (phls[it].pid == 0)
-		{
-			phls_life(&phls[it]);
-		}
-		it++;
-	}
-	return (0);
-}
-
-//waitpid(-1, NULL, 0) : wait for any child process to stop or terminate
-int	philosophers(t_data *data)
-{
-	t_philo	*phls;
-	int		it;
-
-	it = 0;
-	phls = (t_philo *)malloc(sizeof(t_philo) * data->num_phls);
-	if (!phls)
+	if (!philo_check(argv + 1))
 		return (1);
-	sem_opener(data);
-	if (philo_create_and_start(phls, data) != 0)
+	record_init(&record, argv);
+	if (record.sem_end == SEM_FAILED
+		|| record.sem_log == SEM_FAILED
+		|| record.fork == SEM_FAILED)
 		return (1);
-	if (waitpid(-1, NULL, 0) == -1)
-		return (1);
-	kill(-1, SIGKILL);
-	// while (it < data->num_phls)
-	// {
-	// 	// kill(phls[it].pid, SIGKILL);
-	// 	kill(phls[it].pid, SIGKILL);
-	// 	it++;
-	// }
-	sem_closer(data, phls);
-	free(phls);
+	philo_create_and_start(&record);
 	return (0);
 }
