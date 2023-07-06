@@ -6,7 +6,7 @@
 /*   By: yichan <yichan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 00:29:13 by yichan            #+#    #+#             */
-/*   Updated: 2023/06/29 15:24:06 by yichan           ###   ########.fr       */
+/*   Updated: 2023/07/06 16:01:13 by yichan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,12 @@ static void	philo_eat(t_philo *philo)
 void	philo_simulation(t_philo *philo)
 {
 	pthread_t	checker;
+	// char		*sem_name;
 
 	pl_lmeal_time(philo);
+	// sem_name = pl_semname("lmeal_rec", philo->id);
+	// philo->lmeal_rec = create_sem(sem_name, O_CREAT | O_EXCL, 0660, 01);
+	// free(sem_name);
 	pthread_create(&checker, NULL, pl_checker, philo);
 	pthread_detach(checker);
 	while (1)

@@ -15,7 +15,7 @@ CC		=	cc
 RM		=	rm -rf
 CFLAGS	=	-Wall -Werror -Wextra
 # CFLAGS	+=	-pthread
-SANT	=	#-fsanitize=thread
+# SANT	=	-fsanitize=thread
 # CFLAGS	+=	-fsanitize=address
 INCLUDES	= ./includes
 SRC_PATH	= ./srcs
@@ -34,7 +34,7 @@ $(NAME)			:	$(OBJS)
 # 					$(CC) $(CFLAGS) -c -I$(INCLUDES) $< -o $@
 $(OBJ_PATH)/%.o	:	$(SRC_PATH)/%.c $(INCLUDES) Makefile
 					mkdir -p $(@D)
-					$(CC) -c -I$(INCLUDES) $< -o $@
+					$(CC) $(CFLAGS) $(SANT) -c -I$(INCLUDES) $< -o $@
 
 # $(OBJ_PATH)		:
 # 					mkdir -p $(OBJ_PATH)
