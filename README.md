@@ -4,4 +4,4 @@
 ```
 asd
 ```
-![test](philo/srcs/pl_extra_func.c)
+![test](images/1024px-Cute-kittens-12929201-1600-1200.jpg)
