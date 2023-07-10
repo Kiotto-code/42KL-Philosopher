@@ -1,6 +1,8 @@
 # 42KL-Philosopher
 
-# 
+dfghjfk
+sdsfghjk
+dfbcnvbjv,nk./,.
 ```
 Just want to do some cute stuff. Brain fried hehehe...
 ```
