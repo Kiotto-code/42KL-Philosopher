@@ -34,7 +34,7 @@ $(NAME)			:	$(OBJS)
 # 					$(CC) $(CFLAGS) -c -I$(INCLUDES) $< -o $@
 $(OBJ_PATH)/%.o	:	$(SRC_PATH)/%.c $(INCLUDES) Makefile
 					mkdir -p $(@D)
-					$(CC) $(CFLAGS) $(SANT) -c -I$(INCLUDES) $< -o $@
+					$(CC) $(CFLAGS) -c -I$(INCLUDES) $< -o $@
 
 # $(OBJ_PATH)		:
 # 					mkdir -p $(OBJ_PATH)
