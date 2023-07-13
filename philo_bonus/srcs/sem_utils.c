@@ -6,7 +6,7 @@
 /*   By: yichan <yichan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 15:47:55 by yichan            #+#    #+#             */
-/*   Updated: 2023/07/06 15:58:13 by yichan           ###   ########.fr       */
+/*   Updated: 2023/07/13 10:38:49 by yichan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,46 @@ long	pl_time(void)
 //set last meal time
 void	pl_lmeal_time(t_philo *philo)
 {
-	semaphore_report(sem_wait, philo->lmeal_rec);
-	philo->last_meal = pl_time();
-	semaphore_report(sem_post, philo->lmeal_rec);
+	long temp;
+	
+	// semaphore_report(sem_wait, philo->lmeal_rec);
+	// time_set(&philo->time_lastmeal);
+	// philo->last_meal = 	time_get(&philo->time_lastmeal);
+	// temp = 	time_get(&philo->time_lastmeal);
+	temp = 	pl_time();
+	philo->last_meal = 	temp;
+	philo->check_meal = time_get(&philo->time_lastmeal);
+	// semaphore_report(sem_post, philo->lmeal_rec);
+}
+
+// time_t	time_get(t_time *time)
+// {
+// 	time_t	status;
+
+// 	// semaphore_report(sem_wait, time->sem);
+// 	// time_set(time);
+// 	// status = (time->s_time.tv_sec) * 1000
+// 		+ (time->s_time.tv_usec) / 1000;
+// 	// semaphore_report(sem_post, time->sem);
+// 	return (status);
+// }
+
+time_t	time_get(t_time *time)
+{
+	time_t	status;
+
+	// semaphore_report(sem_wait, time->sem);
+	gettimeofday(&time->s_time, NULL);
+	status = (time->s_time.tv_sec) * 1000
+		+ (time->s_time.tv_usec) / 1000;
+	// semaphore_report(sem_post, time->sem);
+	return (status);
+}
+
+
+void	time_set(t_time *time)
+{
+	// semaphore_report(sem_wait, time->sem);
+	gettimeofday(&time->s_time, NULL);
+	// semaphore_report(sem_post, time->sem);
 }

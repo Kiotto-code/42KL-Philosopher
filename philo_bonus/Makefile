@@ -6,16 +6,16 @@
 #    By: yichan <yichan@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/05 18:29:34 by yichan            #+#    #+#              #
-#    Updated: 2023/02/05 18:29:34 by yichan           ###   ########.fr        #
+#    Updated: 2023/07/13 10:23:29 by yichan           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
- 
+
 NAME    =   philo_bonus
 CC		=	cc
 RM		=	rm -rf
-CFLAGS	=	-Wall -Werror -Wextra
+CFLAGS	=	-Wall -Werror -Wextra -g3
 # CFLAGS	+=	-pthread
-# SANT	=	-fsanitize=thread
+SANT	=	-fsanitize=thread
 # CFLAGS	+=	-fsanitize=address
 INCLUDES	= ./includes
 SRC_PATH	= ./srcs
@@ -34,7 +34,7 @@ $(NAME)			:	$(OBJS)
 # 					$(CC) $(CFLAGS) -c -I$(INCLUDES) $< -o $@
 $(OBJ_PATH)/%.o	:	$(SRC_PATH)/%.c $(INCLUDES) Makefile
 					mkdir -p $(@D)
-					$(CC) $(CFLAGS) -c -I$(INCLUDES) $< -o $@
+					$(CC) $(CFLAGS) $(SANT) -c -I$(INCLUDES) $< -o $@
 
 # $(OBJ_PATH)		:
 # 					mkdir -p $(OBJ_PATH)

@@ -52,14 +52,23 @@ typedef struct s_data
 	struct s_philo	*philo;
 }	t_data;
 
+typedef struct s_time
+{
+	sem_t			*sem;
+	struct timeval	s_time;
+}			t_time;
+
 typedef struct s_philo
 {
 	struct s_data	*data;
 	int				id;
 	int				num_meals;
 	long			last_meal;
+	long			check_meal;
+	t_time			time_lastmeal;
 	sem_t			*lmeal_rec;
 }	t_philo;
+
 
 int		philosopher(char **argv);
 sem_t	*create_sem(const char *name, int count, uint32_t mode, int value);
@@ -81,6 +90,7 @@ char	*ft_itoa(int n);
 char	*ft_strjoin(char const *s1, char const *s2);
 void	*ft_calloc(size_t count);
 int		ft_strcmp(const char *s1, const char *s2);
-char	*pl_semname(const char *str, int id);
+time_t	time_get(t_time *time);
+void	time_set(t_time *time);
 
 #endif
