@@ -54,7 +54,7 @@ typedef struct s_data
 
 typedef struct s_time
 {
-	sem_t			*sem;
+	// sem_t			*sem;
 	struct timeval	s_time;
 }			t_time;
 

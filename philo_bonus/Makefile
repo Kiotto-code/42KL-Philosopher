@@ -6,7 +6,7 @@
 #    By: yichan <yichan@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/05 18:29:34 by yichan            #+#    #+#              #
-#    Updated: 2023/07/13 10:23:29 by yichan           ###   ########.fr        #
+#    Updated: 2023/07/13 10:49:57 by yichan           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ CC		=	cc
 RM		=	rm -rf
 CFLAGS	=	-Wall -Werror -Wextra -g3
 # CFLAGS	+=	-pthread
-SANT	=	-fsanitize=thread
+# SANT	=	-fsanitize=thread
 # CFLAGS	+=	-fsanitize=address
 INCLUDES	= ./includes
 SRC_PATH	= ./srcs

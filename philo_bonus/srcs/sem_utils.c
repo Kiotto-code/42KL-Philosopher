@@ -6,7 +6,7 @@
 /*   By: yichan <yichan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 15:47:55 by yichan            #+#    #+#             */
-/*   Updated: 2023/07/13 10:38:49 by yichan           ###   ########.fr       */
+/*   Updated: 2023/07/13 10:49:22 by yichan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void	pl_lmeal_time(t_philo *philo)
 	// temp = 	time_get(&philo->time_lastmeal);
 	temp = 	pl_time();
 	philo->last_meal = 	temp;
-	philo->check_meal = time_get(&philo->time_lastmeal);
+	time_set(&philo->time_lastmeal);
 	// semaphore_report(sem_post, philo->lmeal_rec);
 }
 
@@ -99,7 +99,7 @@ time_t	time_get(t_time *time)
 	time_t	status;
 
 	// semaphore_report(sem_wait, time->sem);
-	gettimeofday(&time->s_time, NULL);
+	// gettimeofday(&time->s_time, NULL);
 	status = (time->s_time.tv_sec) * 1000
 		+ (time->s_time.tv_usec) / 1000;
 	// semaphore_report(sem_post, time->sem);
