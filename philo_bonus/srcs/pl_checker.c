@@ -6,7 +6,7 @@
 /*   By: yichan <yichan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 01:47:16 by yichan            #+#    #+#             */
-/*   Updated: 2023/07/13 10:48:59 by yichan           ###   ########.fr       */
+/*   Updated: 2023/07/24 05:06:49 by yichan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,27 @@ void	philo_sim_status(t_data *record)
 	int	i;
 
 	waitpid(-1, NULL, 0);
+	// i = -1;
+	// while (++i < record->num_phls)
+	// {
+	// 	if (kill(record->num_pid[i], SIGINT) != -1)
+	// 		waitpid(record->num_pid[i], NULL, 0);
+	// }
+
 	i = -1;
+	// semaphore_report(sem_wait, record->sem_end);
+	// while (++i < record->num_phls)
+	// {
+	// 	if (kill(record->num_pid[i], SIGINT) != -1)
+	// 		waitpid(record->num_pid[i], NULL, 0);
+	// }
 	while (++i < record->num_phls)
 	{
-		if (kill(record->num_pid[i], SIGINT) != -1)
-			waitpid(record->num_pid[i], NULL, 0);
+		waitpid(record->num_pid[i], NULL, 0);
 	}
+
+
+	
 }
 
 long	lmeal_interv(t_philo *philo)

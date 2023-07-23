@@ -6,7 +6,7 @@
 /*   By: yichan <yichan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 18:26:43 by yichan            #+#    #+#             */
-/*   Updated: 2023/07/05 15:03:54 by yichan           ###   ########.fr       */
+/*   Updated: 2023/07/24 04:59:35 by yichan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void	philo_create_and_start(t_data *record)
 	pl_philoinit(record);
 	pl_philorun(record);
 	philo_sim_status(record);
+	// waitpid(-1, NULL, 0);
 	semaphore_report(sem_close, record->fork);
 	semaphore_report(sem_close, record->sem_log);
 	semaphore_report(sem_close, record->sem_end);
