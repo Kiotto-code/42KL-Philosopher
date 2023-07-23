@@ -6,7 +6,7 @@
 /*   By: yichan <yichan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 22:52:24 by yichan            #+#    #+#             */
-/*   Updated: 2023/07/24 05:06:11 by yichan           ###   ########.fr       */
+/*   Updated: 2023/07/24 05:23:31 by yichan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@ void	philo_log(t_philo *philo, const char *action)
 	semaphore_report(sem_wait, philo->data->sem_log);
 	printf("%ld %d %s\n", pl_time() - philo->data->creation_time,
 		philo->id, action);
-	// if (ft_strcmp(action, DEAD))
-	// 	semaphore_report(sem_post, philo->data->sem_log);
-	semaphore_report(sem_post, philo->data->sem_log);
+	if (ft_strcmp(action, DEAD))
+		semaphore_report(sem_post, philo->data->sem_log);
+	// semaphore_report(sem_post, philo->data->sem_log);
 }
 
 void	philo_do(t_philo *philo, int time)

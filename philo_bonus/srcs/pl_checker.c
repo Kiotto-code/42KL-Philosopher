@@ -6,7 +6,7 @@
 /*   By: yichan <yichan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 01:47:16 by yichan            #+#    #+#             */
-/*   Updated: 2023/07/24 05:06:49 by yichan           ###   ########.fr       */
+/*   Updated: 2023/07/24 05:23:05 by yichan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,9 @@
 void	philo_sim_status(t_data *record)
 {
 	int	i;
+	int status;
 
-	waitpid(-1, NULL, 0);
+	waitpid(-1, &status, 0);
 	// i = -1;
 	// while (++i < record->num_phls)
 	// {
@@ -39,6 +40,8 @@ void	philo_sim_status(t_data *record)
 	// }
 	while (++i < record->num_phls)
 	{
+		if (WIFEXITED(status) == 1)
+			kill(record->num_pid[i], SIGINT);
 		waitpid(record->num_pid[i], NULL, 0);
 	}
 
