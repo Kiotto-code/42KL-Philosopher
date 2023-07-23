@@ -6,7 +6,7 @@
 /*   By: yichan <yichan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 00:29:13 by yichan            #+#    #+#             */
-/*   Updated: 2023/07/06 16:01:13 by yichan           ###   ########.fr       */
+/*   Updated: 2023/07/24 04:03:29 by yichan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,8 @@ void	philo_simulation(t_philo *philo)
 	{
 		philo_eat(philo);
 		philo_log(philo, SLEEP);
-		if (philo->num_meals >= philo->data->mealtarget)
+		if (philo->data->mealtarget != -1 &&
+			philo->num_meals >= philo->data->mealtarget)
 		{
 			break ;
 		}
