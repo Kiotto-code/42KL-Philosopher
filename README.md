@@ -2,6 +2,7 @@
 
 dfghjfk
 sdsfghjk
+`rgb(9, 105, 218)`
 dfbcnvbjv,nk./,.
 ```
 Just want to do some cute stuff. Brain fried hehehe...
