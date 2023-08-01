@@ -2,7 +2,7 @@
 
 dfghjfk
 sdsfghjk
-#0969DA dfbcnvbjv,nk./,.
+`#0969DA` dfbcnvbjv,nk./,.
 ```
 Just want to do some cute stuff. Brain fried hehehe...
 ```
