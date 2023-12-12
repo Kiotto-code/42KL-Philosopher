@@ -1,10 +1,5 @@
 # 42KL-Philosopher
 
-dfghjfk
-sdsfghjk
-#0969DA dfbcnvbjv,nk./,.
-<span style="color:red;">This text will be red.</span>
-asdfsdgfhg
 ```
 Just want to do some cute stuff. Brain fried hehehe...
 ```
